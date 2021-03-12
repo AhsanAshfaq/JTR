@@ -15,8 +15,21 @@ namespace OSS.Controllers
         // GET: tblGenerateFeesMsts
         public ActionResult Index()
         {
-            ViewBag.StageList = db.tblStage.ToList();
-            ViewBag.FeeList = db.tblFeesType.ToList();
+            var result = new List<object>();
+            result.Add(new
+            {
+                AdmissionId = 0,
+                GRNo = "1",
+                StudentName = "1",
+                Class = "1",
+                Section = "1",
+                FeeType = "1",
+                FeeAmount = "1",
+                Discount = "1",
+                DiscountAmount = "1",
+                EditedDiscount = "1",
+                NetFees = "1",
+            });
             return View();
         }
 
