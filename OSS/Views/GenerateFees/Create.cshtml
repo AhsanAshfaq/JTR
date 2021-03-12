@@ -1,180 +1,262 @@
 ﻿@model OSS.Models.tblGenerateFeesMst
 
 @{
-    ViewBag.Title = "Create";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Index";
+    var stageList = (List<OSS.Models.tblStage>)ViewBag.StageList;
+    var year = DateTime.Now.Year;
+    var feeList = (List<OSS.Models.tblFeesType>)ViewBag.FeeList;
 }
+<style>
+    .chosen-container-multi .chosen-choices {
+        border: none !important;
+    }
+</style>
+<section class="content">
+    <div class="container-fluid">
+        <!-- Basic Examples -->
+        <div class="row clearfix demo-icon-container">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="card">
+                    <div class="body">
+                        @using (Html.BeginForm("create", "GenerateFees", FormMethod.Post, new { @id = "generateFeesForm" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            <div class="form-horizontal">
+                                @Html.ValidationSummary(true)
+                                <div class="row body clearfix">
+                                    <div class="col-sm-3">
+                                        <div class="form-group form-float">
+                                            <div class="form-line">
+                                                <select id="StageID" class="form-control" onchange="dropdownfill($(this).attr('id'), 'ClassID')">
+                                                    <option value="0">Select All</option>
+                                                    @foreach (var item in stageList)
+                                                    {
+                                                        <option value="@item.StageID">@item.StageName</option>
+                                                    }
+                                                </select>
+                                                <label class="form-label">Stage</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group form-float">
+                                            <div class="form-line">
+                                                <select required="" class="form-control" id="ClassID" name="ClassID" onchange="dropdownfill($(this).attr('id'), 'SectionID')"></select>
+                                                <label class="form-label">Class</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group form-float ">
+                                            <div class="form-line">
+                                                <select required="" class="form-control alerts-border" id="SectionID" name="SectionID"></select>
+                                                <label class="form-label">School</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group form-float  ">
+                                            <div class="form-line">
+                                                <input class="form-control datepicker" id="postDate" name="postDate" />
+                                                <label class="form-label">Post Date</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row body clearfix">
+                                    <div class="col-sm-6">
+                                        <div class="form-group form-float  ">
+                                            <div class="form-line">
+                                                <select class="form-control" id="feeMonth" name="feeMonth">
+                                                    <option value="Jan-21">Januray - @year</option>
+                                                    <option value="Feb-21">Feburary - @year</option>
+                                                    <option value="Mar-21">March - @year</option>
+                                                    <option value="Apr-21">April - @year</option>
+                                                    <option value="May-21">May - @year</option>
+                                                    <option value="Jun-21">June - @year</option>
+                                                    <option value="Jul-21">July - @year</option>
+                                                    <option value="Aug-21">August - @year</option>
+                                                    <option value="Sep-21">September - @year</option>
+                                                    <option value="Oct-21">October - @year</option>
+                                                    <option value="Nov-21">November - @year</option>
+                                                    <option value="Dec-21">December - @year</option>
+                                                </select>
+                                                <label class="form-label">Fees Month</label>
+                                            </div>
+                                        </div>
 
-<h2>Create</h2>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group form-float  ">
+                                            <div class="form-line">
+                                                <select data-placeholder="Select Charge Fee" style="border: none;" multiple class="form-control chosen-select" name="test">
+                                                    <option value=""></option>
+                                                    @foreach (var item in feeList)
+                                                    {
+                                                        <option value="@item.FeesTypeID">@item.FeesType</option>
+                                                    }
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row body clearfix">
+                                    <div class="col-sm-6">
+                                        <button type="button" class="btn btn-info btn-sm waves-effect" onclick="generateFees('defaulter')">Defaulters</button>
+                                        <button type="button" class="btn btn-info btn-sm waves-effect" onclick="generateFees('generate')">Generate</button>
+                                        <button type="button" class="btn btn-info btn-sm waves-effect">Search Students</button>
+                                        <button type="button" class="btn btn-info btn-sm waves-effect" onclick="generateFees('fixed')">Generate Fixed Fees</button>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <button type="button" class="btn btn-info btn-sm waves-effect">New</button>
+                                        <button id="btnsubmit" type="submit" class="btn btn-danger btn-sm waves-effect">Save</button>
+                                        <button type="button" class="btn btn-info btn-sm waves-effect">Update</button>
+                                        <button type="button" class="btn btn-danger btn-sm waves-effect">Delete</button>
 
-@using (Html.BeginForm()) 
-{
-    @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>tblGenerateFeesMst</h4>
-        <hr />
-        @Html.ValidationSummary(true)
-        <div class="form-group">
-            @Html.LabelFor(model => model.StageID, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.StageID)
-                @Html.ValidationMessageFor(model => model.StageID)
+                                    </div>
+                                    <input type="hidden" id="selectedStudentsId" name="selectedStudentsId" />
+                                    <input type="hidden" id="stage" name="stage" />
+                                    <input type="hidden" id="class" name="class" />
+                                    <input type="hidden" id="section" name="section" />
+                                    <input type="hidden" id="postDatee" name="postDatee" />
+                                    <input type="hidden" id="chargeFees" name="chargeFees" />
+                                    <input type="hidden" id="feesMonth" name="feesMonth" />
+                                </div>
+                                <div class="row body clearfix">
+                                    <div class="col-sm-12">
+                                        <table id="table" class="table table-bordered table-striped table-hover js-basic-example dataTable">
+                                            <thead>
+                                                <tr>
+                                                    <th></th>
+                                                    <th>GR.No</th>
+                                                    <th>Student Name</th>
+                                                    <th>Class</th>
+                                                    <th>Section</th>
+                                                    <th>Fee Type</th>
+                                                    <th>Fee Amount</th>
+                                                    <th>Discount</th>
+                                                    <th>Discount Amount</th>
+                                                    <th>Edited Discount</th>
+                                                    <th>Net Fees</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
             </div>
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.ClassID, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.ClassID)
-                @Html.ValidationMessageFor(model => model.ClassID)
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.SectionID, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.SectionID)
-                @Html.ValidationMessageFor(model => model.SectionID)
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.TotalStudents, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.TotalStudents)
-                @Html.ValidationMessageFor(model => model.TotalStudents)
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.TotalFeesAmount, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.TotalFeesAmount)
-                @Html.ValidationMessageFor(model => model.TotalFeesAmount)
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.TotalDiscountAmount, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.TotalDiscountAmount)
-                @Html.ValidationMessageFor(model => model.TotalDiscountAmount)
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.TotalNetFees, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.TotalNetFees)
-                @Html.ValidationMessageFor(model => model.TotalNetFees)
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.IsDelete, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.IsDelete)
-                @Html.ValidationMessageFor(model => model.IsDelete)
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.SchoolID, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.SchoolID)
-                @Html.ValidationMessageFor(model => model.SchoolID)
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.PostDate, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.PostDate)
-                @Html.ValidationMessageFor(model => model.PostDate)
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.FeesDate, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.FeesDate)
-                @Html.ValidationMessageFor(model => model.FeesDate)
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.CreateBy, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.CreateBy)
-                @Html.ValidationMessageFor(model => model.CreateBy)
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.CreateDate, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.CreateDate)
-                @Html.ValidationMessageFor(model => model.CreateDate)
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.UpdateBy, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.UpdateBy)
-                @Html.ValidationMessageFor(model => model.UpdateBy)
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.UpdateDate, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.UpdateDate)
-                @Html.ValidationMessageFor(model => model.UpdateDate)
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.DeleteBy, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.DeleteBy)
-                @Html.ValidationMessageFor(model => model.DeleteBy)
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.DeleteDate, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.DeleteDate)
-                @Html.ValidationMessageFor(model => model.DeleteDate)
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.SessionID, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.SessionID)
-                @Html.ValidationMessageFor(model => model.SessionID)
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.UserID, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.UserID)
-                @Html.ValidationMessageFor(model => model.UserID)
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
-        </div>
     </div>
-}
+</section>
+<script>
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
+    $(document).ready(function () {
+        $(".chosen-select").chosen({
+            no_results_text: "Oops, nothing found!"
+        });
+        $(document).on('click', '.checkbox', function (i, ii) {
+            var clickedCheckboxId = $(i.currentTarget).attr('id');
+            var ids = $('#selectedStudentsId').val();
+            if (ids.indexOf(clickedCheckboxId) >= 0) {
+                var arr = ids.split(',').filter(e => e !== clickedCheckboxId);
+                ids = arr.join(',');
+            } else {
+                if (ids == '')
+                    ids += clickedCheckboxId;
+                else
+                    ids += ',' + clickedCheckboxId;
+            }
+            $('#selectedStudentsId').val(ids);
+            var stageId = $('#StageID').val();
+            var classId = $('#ClassID').val();
+            var sectionId = $('#SectionID').val();
+            var feeMonth = $('#feeMonth').val();
+            var chargeFeeList = $(".chosen-select").val().join(',');
+            var postDate = $('#postDate').val();
+            $('#stage').val(stageId);
+            $('#class').val(classId);
+            $('#section').val(sectionId);
+            $('#feesMonth').val(feeMonth);
+            $('#chargeFees').val(chargeFeeList);
+            $('#postDatee').val(postDate);
+        });
+    });
+    function generateFees(type) {
+        var stageId = $('#StageID').val();
+        var classId = $('#ClassID').val();
+        var sectionId = $('#SectionID').val();
+        var feeMonth = $('#feeMonth').val();
+        var chargeFeeList = $(".chosen-select").val().join(',');
+        var postDate = $('#postDate').val();
+        var url = '';
+        switch (type) {
+            case 'generate':
+                url = '/generatefees/Genereate';
+                break;
+            case 'fixed':
+                url = '/generatefees/GenerateFixedFees';
+                break;
+            case 'defaulter':
+                url = '/generatefees/GetDefaulters'
+            default:
+                break;
+        }
+        $.ajax({
+                url: url,
+                type: "POST",
+                data: {
+                    "stageId": stageId,
+                    "classId": classId,
+                    "sectionId": sectionId,
+                    "chargeFeeList": chargeFeeList,
+                    "feeMonth": feeMonth,
+                    "postDate": postDate
+                },
+                success: function (result) {
+                    $("#table tbody").html('');
+                    $.each(result, function (id, option) {
+                        $('#table tbody').append('<tr><td><input class="checkbox" style="position: inherit;opacity: 1;" type="checkbox" name="' + option.AdmissionId + '" id="' + option.AdmissionId + '" /></td><td>' + option.GRNo + '</td><td>' + option.StudentName + '</td><td>' + option.Class + '</td><td>' + option.Section + '</td><td>' + option.FeeType + '</td><td>' + option.FeeAmount + '</td><td>' + option.Discount + '</td><td>' + option.DiscountAmount + '</td><td>' + option.EditedDiscount + '</td><td>' + option.NetFees + '</td></tr>');
+                    });
+                },
+                error: function (result) {
+                    console.log(result);
+                    alert("Error");
+                }
+            });
+    }
+    function dropdownfill(id,bindid)
+    {
+        var name = id;
+        var id = "#" + id;
+        bindid = "#" + bindid;
+        var selectedId = $(id).val();
+        if (selectedId != "") {
+            $.ajax({
+                url: '@Url.Action("fill_dropdown", "Registration")',
+                type: "POST",
+                data: {
+                    "id": selectedId,
+                    "name": name
+                },
+                success: function (result) {
+                    $(bindid).html('');
+                    $(bindid).append($('<option value="0">Select All</option>'));
+                    $.each(result, function (id, option) {
+                        $(bindid).append($('<option></option>').val(option.id).html(option.name));
+                    });
+                },
+                error: function (result) {
+                    console.log(result);
+                    alert("Error");
+                }
+            });
+        } else {
+        }
+    }
+</script>
