@@ -1,0 +1,219 @@
+﻿@model OSS.Models.tblDefineFeesStudentMst
+@{
+    var feeTypes = (List<OSS.Models.tblFeesType>)ViewBag.feeTypes;
+    var feeTypesCount = feeTypes.Count;
+}
+<section class="content">
+    <div class="container-fluid">
+        <!-- Basic Examples -->
+        <div class="row clearfix demo-icon-container">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="card">
+                    <div class="body">
+                        @using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "defineFeesStudentForm" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            <div class="form-horizontal">
+                                <a title="Back To List" href='@Url.Action("Index", "definefeestudant")' class="btn btn-danger btn-circle waves-effect waves-circle waves-float">
+                                    <i class="material-icons">arrow_back </i>
+                                </a> <b class="icon-name title-lable">Define Fees Student</b>
+                                <hr />
+                                @Html.ValidationSummary(true)
+                                <div class="row body clearfix">
+                                    <div class="col-sm-3">
+                                        <div class="form-group form-float">
+                                            <div class="form-line">
+                                                @Html.DropDownList("StageID", null, "", new { @class = "form-control", onchange = "dropdownfill($(this).attr('id'), 'ClassID')", required = "" })
+                                                <label class="form-label">Select Stage</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group form-float">
+                                            <div class="form-line">
+                                                <select required="" class="form-control" id="ClassID" name="ClassID" onchange="dropdownfill($(this).attr('id'), 'SectionID')"></select>
+                                                <label class="form-label">Class</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group form-float ">
+                                            <div class="form-line">
+                                                <select required="" class="form-control alerts-border" id="SectionID" name="SectionID"></select>
+                                                <label class="form-label">School</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group form-float  ">
+                                            <div class="form-line">
+                                                <select id="feeType" name="feeType" class="form-control">
+                                                    @foreach (var item in feeTypes)
+                                                    {
+                                                        <option value="@item.FeesTypeID">@item.FeesType</option>
+                                                    }
+                                                </select>
+                                                <label class="form-label">Fee Type</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row body clearfix">
+                                    <div class="col-sm-12">
+                                        <button id="loadStudetns" type="button" onclick="getStudentsList()">Load Students</button>
+                                    </div>
+                                </div>
+                                <div class="row body clearfix">
+                                    <div class="col-sm-8"></div>
+                                    <div class="col-sm-4">
+                                        <h2>Total Students : <label id="totalStudents">0</label></h2>
+                                        <input type="hidden" name="selectedStudentList" id="selectedStudentList" />
+                                        <input type="hidden" name="totalStudentNumber" id="totalStudentNumber" />
+                                    </div>
+                                </div>
+                                <div class="row body clearfix">
+                                    <h2>Students Selection</h2>
+                                    <br />
+                                    <br />
+                                    <div class="table-responsive">
+                                        <table id="studentsList" class="table table-bordered table-striped table-hover js-basic-example dataTable">
+                                            <thead>
+                                                <tr>
+                                                    <th>
+                                                        <input type="checkbox" id="0" onchange="selectAllBoxes(0)" style="left: 55px; margin-top: -16px; opacity: 1;" />
+                                                    </th>
+                                                    <th>
+                                                        G.R No
+                                                    </th>
+                                                    <th>
+                                                        Applicant Name
+                                                    </th>
+                                                    <th>
+                                                        Father Name
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-offset-2 col-md-10">
+                                        <button id="btnsubmit" type="submit" class="btn btn-danger btn-sm waves-effect">
+                                            <i class="material-icons">save</i>
+                                            <span>Save</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+    $(document).ready(function () {
+    });
+    function dropdownfill(id,bindid)
+    {
+        var name = id;
+        var id = "#" + id;
+        bindid = "#" + bindid;
+        var selectedId = $(id).val();
+        if (selectedId != "") {
+            $.ajax({
+                url: '@Url.Action("fill_dropdown", "Registration")',
+                type: "POST",
+                data: {
+                    "id": selectedId,
+                    "name": name
+                },
+                success: function (result) {
+                    $(bindid).html('');
+                    $(bindid).append($('<option>Select</option>'));
+                    $.each(result, function (id, option) {
+                        $(bindid).append($('<option></option>').val(option.id).html(option.name));
+                    });
+                },
+                error: function (result) {
+                    alert("Error");
+                }
+            });
+        } else {
+        }
+    }
+    function getStudentsList() {
+        var stageId = $("#StageID :selected").val();
+        var sectionId = $("#SectionID :selected").val();
+        var classId = $("#ClassID :selected").val();
+        if (stageId == '' || sectionId == undefined || sectionId == 'Select' || classId == undefined || classId == 'Select') {
+            alert('Unable to load data until all dropdowns have value.');
+            return;
+        }
+
+        $.ajax({
+                url: '@Url.Action("GetStudentsList", "definefeestudant")',
+                type: "POST",
+                data: {
+                    "stageId": stageId,
+                    "classId": classId,
+                    "sectionId": sectionId
+                },
+            success: function (result) {
+                $('#totalStudents').text(result.length);
+                $("#totalStudentNumber").val(result.length);
+                $("#studentsList tbody").html('');
+                $.each(result, function (id, option) {
+                    $("#studentsList tbody").append('<tr><td><input onchange="updateSelectedStudent(' + option.id + ')" type="checkbox" id="' + option.id + '" name="' + option.id + '"  style="left: 55px; margin-top: 0px; opacity: 1;" /></td><td>' + option.GRNo + '</td><td>' + option.FirstName + '</td><td>' + option.LastName + '</td></tr>');
+                });
+
+                },
+            error: function (result) {
+                console.log(result);
+                }
+            });
+    }
+    function selectAllBoxes() {
+        var TRs = $("#studentsList tbody tr");
+        if (!$('#0').is(":checked"))
+            $('#selectedStudentList').val('');
+        var selectedStudentList = $('#selectedStudentList').val();
+        $.each(TRs, function (id, tr) {
+            var isChecked = $(tr).find('input').is(":checked");
+            if (isChecked) {
+                $(tr).find('input').prop('checked', false);
+            }
+            else {
+                $(tr).find('input').prop('checked', true);
+                if (selectedStudentList == '')
+                    selectedStudentList = $(tr).find('input').attr('id');
+                else
+                    selectedStudentList += ',' + $(tr).find('input').attr('id');
+            }
+        });
+        $('#selectedStudentList').val(selectedStudentList);
+    }
+    function updateSelectedStudent(id) {
+        var selectedStudentList = $('#selectedStudentList').val();
+        if ($('#' + id).is(":checked")) {
+            if (id > 0) {
+                if (selectedStudentList == '')
+                    selectedStudentList = id;
+                else
+                    selectedStudentList += ',' + id;
+            }
+            $('#selectedStudentList').val(selectedStudentList);
+        }
+        else {
+            var updatedList = [];
+            $.each(selectedStudentList.split(','), function (Stid, optionId) {
+                if (optionId != id)
+                    updatedList.push(optionId);
+            });
+            $('#selectedStudentList').val(updatedList);
+        }
+    }
+</script>

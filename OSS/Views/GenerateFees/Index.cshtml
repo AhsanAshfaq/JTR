@@ -1,0 +1,156 @@
+﻿@model OSS.Models.tblGenerateFeesMst
+
+@{
+    ViewBag.Title = "Index";
+    var stageList = (List<OSS.Models.tblStage>)ViewBag.StageList;
+}
+<section class="content">
+    <div class="container-fluid">
+        <!-- Basic Examples -->
+        <div class="row clearfix demo-icon-container">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="card">
+                    <div class="body">
+                        @using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "generateFeesForm" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            <div class="form-horizontal">
+                                @Html.ValidationSummary(true)
+                                <div class="row body clearfix">
+                                    <div class="col-sm-3">
+                                        <div class="form-group form-float">
+                                            <div class="form-line">
+                                                <select id="StageID" class="form-control" onchange="dropdownfill($(this).attr('id'), 'ClassID')">
+                                                    <option value="0">Select All</option>
+                                                    @foreach (var item in stageList)
+                                                    {
+                                                        <option value="@item.StageID">@item.StageName</option>
+                                                    }
+                                                </select>
+                                                <label class="form-label">Stage</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group form-float">
+                                            <div class="form-line">
+                                                <select required="" class="form-control" id="ClassID" name="ClassID" onchange="dropdownfill($(this).attr('id'), 'SectionID')"></select>
+                                                <label class="form-label">Class</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group form-float ">
+                                            <div class="form-line">
+                                                <select required="" class="form-control alerts-border" id="SectionID" name="SectionID"></select>
+                                                <label class="form-label">School</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group form-float  ">
+                                            <div class="form-line">
+                                                <input class="form-control datepicker" id="postDate" name="postDate" />
+                                                <label class="form-label">Post Date</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row body clearfix">
+                                    <div class="col-sm-12">
+                                        <div class="form-group form-float  ">
+                                            <div class="form-line">
+                                                <select class="form-control" id="feeMonth" name="feeMonth">
+                                                </select>
+                                                <label class="form-label">Fees Month</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row body clearfix">
+                                    <div class="col-sm-6">
+                                        <button type="button" class="btn btn-info btn-sm waves-effect">Defaulters</button>
+                                        <button type="button" class="btn btn-info btn-sm waves-effect">Generate</button>
+                                        <button type="button" class="btn btn-info btn-sm waves-effect">Search Students</button>
+                                        <button type="button" class="btn btn-info btn-sm waves-effect">Generate Fixed Fees</button>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <button type="button" class="btn btn-info btn-sm waves-effect">Clear Filters</button>
+                                        <button id="btnsubmit" type="submit" class="btn btn-danger btn-sm waves-effect">Save</button>
+                                        <button type="button" class="btn btn-info btn-sm waves-effect">Update</button>
+                                        <button type="button" class="btn btn-danger btn-sm waves-effect">Delete</button>
+
+                                    </div>
+                                </div>
+                                <div class="row body clearfix">
+                                    <div class="col-sm-12">
+                                        <table id="generateFeeTable" class=" table order-list">
+                                            <thead>
+                                                <tr>
+                                                    <td>GR.No</td>
+                                                    <td>Student Name</td>
+                                                    <td>Class</td>
+                                                    <td>Section</td>
+                                                    <td>Fee Type</td>
+                                                    <td>Fee Amount</td>
+                                                    <td>Discount</td>
+                                                    <td>Discount Amount</td>
+                                                    <td>Edited Discount</td>
+                                                    <td>Net Fees</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+<script>
+    $(function () {
+        var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        var month = (new Date()).getMonth();
+        for (var i = 0; i < monthNames.length; month++) {
+            if (month == monthNames[i])
+                $('#feeMonth').append('<option selected="selected">' + monthNames[i] + ' - ' + (new Date()).getFullYear() + '</option>');
+            else
+                $('#feeMonth').append('<option>' + monthNames[i] + ' - ' + (new Date()).getFullYear() + '</option>');
+        }
+    });
+    function dropdownfill(id,bindid)
+    {
+        var name = id;
+        var id = "#" + id;
+        bindid = "#" + bindid;
+        var selectedId = $(id).val();
+        if (selectedId != "") {
+            $.ajax({
+                url: '@Url.Action("fill_dropdown", "Registration")',
+                type: "POST",
+                data: {
+                    "id": selectedId,
+                    "name": name
+                },
+                success: function (result) {
+                    $(bindid).html('');
+                    $(bindid).append($('<option value="0">Select All</option>'));
+                    $.each(result, function (id, option) {
+                        $(bindid).append($('<option></option>').val(option.id).html(option.name));
+                    });
+                },
+                error: function (result) {
+                    console.log(result);
+                    alert("Error");
+                }
+            });
+        } else {
+        }
+    }
+</script>

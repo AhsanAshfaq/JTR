@@ -1,0 +1,101 @@
+﻿@model IEnumerable<OSS.Models.tblStudentRegMst>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+
+<section class="content">
+    <div class="container-fluid">
+
+        <!-- Basic Examples -->
+        <div class="row clearfix">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="card">
+
+                    <div class="header">
+                        <b class="icon">
+
+                            <i class="material-icons">line_style</i> Regitration Info
+                        </b>
+                        <a title="Add New Record" class="pull-right btn bg-red btn-sm waves-effect" href='@Url.Action("Create", "Registration")'><i class="material-icons">line_style</i> Create</a>
+                        @if (@TempData["restore"] == "restore")
+                        {
+                            <a title="View Trash" class="pull-right btn btn-default btn-sm waves-effect" href='@Url.Action("Index", "Registration")'><i class="material-icons">restore</i> <span>View All</span> </a>
+                        }
+                        else
+                        {
+                            <a title="View Trash" class="pull-right btn btn-default btn-sm waves-effect" href='@Url.Action("Index", "Registration", new { isdelete = 1 })'><i class="material-icons">restore</i> <span>Restore</span> </a>
+                        }
+
+
+
+
+                        <br /><br />
+                    </div>
+                    <div class="body">
+                        <div class="table-responsive">
+
+
+                            <table class="table table-bordered table-striped table-hover js-basic-example dataTable">
+                                <tr class="thead">
+                                    <th>
+                                        Reg-No
+                                    </th>
+                                    <th>
+                                        Studant Name
+                                    </th>
+                                    <th>
+                                        Father Name
+                                    </th>
+                                    <th>
+                                        Father Cell
+                                    </th>
+                                    <th>Action</th>
+                                </tr>
+
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td title="@Html.DisplayFor(modelItem => item.RegID)">
+                                            @Html.DisplayFor(modelItem => item.RegNo)
+                                        </td>
+                                        <td>
+                                           <b>@Html.DisplayFor(modelItem => item.ApplicantName)  @Html.DisplayFor(modelItem => item.ApplicantNameInUrdu)</b> 
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.FatherName)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.FatherMobileNo)
+                                        </td>
+                                        @if (@TempData["restore"] == "restore")
+                                        {
+                                            <td>
+                                                <a title="View Trash" class="pull-right btn btn-success btn-xs waves-effect" href='@Url.Action("Index", "Registration", new { restoreid = item.RegID })'><i class="material-icons">restore</i> <span>Restore</span> </a>
+                                            </td>
+                                        }
+                                        else
+                                        {
+                                            <td>
+                                                <a title="Edit" href="@Url.Action("Edit", "Registration", new { id = item.RegID }) "><i class="material-icons">edit</i></a>
+                                                <a title="Detail" href="@Url.Action("Details", "Registration", new { id = item.RegID }) "><i class="material-icons">list</i></a>
+                                                <a title="Delete" href="@Url.Action("Delete", "Registration", new { id = item.RegID }) "><i class="material-icons">delete</i></a>
+
+                                            </td>
+                                        }
+
+
+                                    </tr>
+                                }
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+

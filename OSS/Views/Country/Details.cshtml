@@ -1,0 +1,48 @@
+﻿@model OSS.Models.tblCountry
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<section class="content">
+    <div class="container-fluid">
+        <!-- Basic Examples -->
+        <div class="row clearfix demo-icon-container">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="card">
+                    <div class="body">
+
+                        <div class="form-horizontal">
+                            <a title="Back To List" href='@Url.Action("Index", "Country")' class="btn btn-danger btn-circle waves-effect waves-circle waves-float">
+                                <i class="material-icons">arrow_back </i>
+                            </a> <b class="icon-name title-lable">Country Details</b>
+                            <hr />
+                            <div class="row body clearfix">
+                                <div class="col-sm-2">
+                                    <div class="form-group form-float">
+                                        <div class="">
+                                            <label>User Name</label><br />
+                                            @Html.DisplayFor(model => model.CountryName)
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="form-group form-float">
+                                        <div class="">
+                                            <label>Status</label><br />
+                                            @Html.DisplayFor(model => model.IsActive)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+

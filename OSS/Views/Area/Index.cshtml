@@ -1,0 +1,107 @@
+﻿@model IEnumerable<OSS.Models.tblArea>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+
+<section class="content">
+    <div class="container-fluid">
+        
+        <!-- Basic Examples -->
+        <div class="row clearfix">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="card">
+                   
+                    <div class="header">
+                        <b class="icon">
+                            
+                            <i class="material-icons">line_style</i> Users List
+                        </b>
+                        <a title="Add New Record" class="pull-right btn bg-red btn-sm waves-effect" href='@Url.Action("Create", "Area")'><i class="material-icons">line_style</i> Create</a>  
+                        @if (@TempData["restore"] == "restore")
+                        {
+                            <a title="View Trash" class="pull-right btn btn-default btn-sm waves-effect" href='@Url.Action("Index", "Area")'><i class="material-icons">restore</i> <span>View All</span> </a>
+                        }
+                        else
+                        {
+                             <a title="View Trash" class="pull-right btn btn-default btn-sm waves-effect" href='@Url.Action("Index", "Area", new { isdelete = 1 })'><i class="material-icons">restore</i> <span>Restore</span> </a>
+                        }
+
+                       
+                        
+                        
+                        <br /><br />
+                    </div>
+                    <div class="body">
+                        <div class="table-responsive">
+
+                           
+                                <table class="table table-bordered table-striped table-hover js-basic-example dataTable">
+                                    <tr class="thead">
+                                        <th>
+                                            Country ID
+                                        </th>
+                                        <th>
+                                            Province Name
+                                        </th>
+                                        <th>
+                                            Area Name
+                                        </th>
+                                        <th>
+                                            Status
+                                        </th>
+                                        <th>Action</th>
+                                    </tr>
+
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.CountryID)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.ProvinceID)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.CityID)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.AreaName)
+                                            </td>
+                                           
+                                            <td>
+                                                @item.IsActive
+                                            </td>
+                                            @if (@TempData["restore"] == "restore")
+                                            {
+                                                <td>
+                                                    <a title="View Trash" class="pull-right btn btn-success btn-xs waves-effect" href='@Url.Action("Index", "Area", new { restoreid = item.AreaID })'><i class="material-icons">restore</i> <span>Restore</span> </a>
+                                                </td>
+                                            }
+                                            else
+                                            {
+                                                <td>
+                                                    <a title="Edit" href="@Url.Action("Edit", "Area", new { id = item.AreaID }) "><i class="material-icons">edit</i></a>
+                                                    <a title="Detail" href="@Url.Action("Details", "Area", new { id = item.AreaID }) "><i class="material-icons">list</i></a>
+                                                    <a title="Delete" href="@Url.Action("Delete", "Area", new { id = item.AreaID }) "><i class="material-icons">delete</i></a>
+
+                                                </td>
+                                            }
+
+                                           
+                                        </tr>
+                                    }
+
+                                </table>
+</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+     
+    </div>
+</section>
+
+
+

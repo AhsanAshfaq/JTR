@@ -1,0 +1,96 @@
+﻿@model IEnumerable<OSS.Models.tblDefineFeesStudentMst>
+
+@{
+    ViewBag.Title = "Define Fee Student";
+    var db = new OSS.Models.ApplicationDbContext();
+
+}
+
+<section class="content">
+    <div class="container-fluid">
+        <!-- Basic Examples -->
+        <div class="row clearfix">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="card">
+
+                    <div class="header">
+                        <b class="icon">
+                            <i class="material-icons">line_style</i> Define Fees Student
+                        </b>
+                        <a title="Add New Record" class="pull-right btn bg-red btn-sm waves-effect" href='@Url.Action("Create", "definefeestudant")'><i class="material-icons">line_style</i> Create</a>
+                        @if (@TempData["restore"] == "restore")
+                        {
+                            <a title="View Trash" class="pull-right btn btn-default btn-sm waves-effect" href='@Url.Action("Index", "definefeestudant")'><i class="material-icons">restore</i> <span>View All</span> </a>
+                        }
+                        else
+                        {
+                            <a title="View Trash" class="pull-right btn btn-default btn-sm waves-effect" href='@Url.Action("Index", "Users", new { isdelete = 1 })'><i class="material-icons">restore</i> <span>Restore</span> </a>
+                        }
+                        <br /><br />
+                    </div>
+                    <div class="body">
+                        <div class="table-responsive">
+
+
+                            <table class="table table-bordered table-striped table-hover js-basic-example dataTable">
+                                <thead>
+                                    <tr class="thead">
+                                        <th>
+                                            Stage Name
+                                        </th>
+                                        <th>
+                                            Class Name
+                                        </th>
+                                        <th>
+                                            Section Name
+                                        </th>
+                                        <th>
+                                            Fee Type
+                                        </th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.tblStage.StageName)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.tblClassMst.ClassName)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.tblSection.SectionName)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => db.Database.SqlQuery<OSS.Models.tblFeesType>("select * from tblFeesType where feesTypeID =" + @item.FeesTypeID).FirstOrDefault().FeesType)
+                                            </td>
+
+                                            @if (@TempData["restore"] == "restore")
+                                            {
+                                                <td>
+                                                    <a title="View Trash" class="pull-right btn btn-success btn-xs waves-effect" href='@Url.Action("Index", "definefeestudant", new { restoreid = item.DefineFeesStudentID })'><i class="material-icons">restore</i> <span>Restore</span> </a>
+                                                </td>
+                                            }
+                                            else
+                                            {
+                                                <td>
+                                                    <a title="Edit" href="@Url.Action("Edit", "definefeestudant", new { id = item.DefineFeesStudentID }) "><i class="material-icons">edit</i></a>
+                                                    <a title="Delete" href="@Url.Action("Delete", "definefeestudant", new { id = item.DefineFeesStudentID }) "><i class="material-icons">delete</i></a>
+                                                </td>
+                                            }
+
+
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

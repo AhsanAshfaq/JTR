@@ -1,0 +1,203 @@
+﻿@model IEnumerable<OSS.Models.tblForms>
+    @{
+        ViewBag.Title = "Create";
+    }
+    <section class="content">
+        <div class="container-fluid">
+            <!-- Basic Examples -->
+            <div class="row clearfix demo-icon-container">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="card">
+                        <div class="body">
+                            @using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "form_validation" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                <div class="form-horizontal">
+                                    <a title="Back To List" href='@Url.Action("Index", "Roles")' class="btn btn-danger btn-circle waves-effect waves-circle waves-float">
+                                        <i class="material-icons">arrow_back </i>
+                                    </a> <b class="icon-name title-lable"> Create New Role</b>
+
+                                    <hr />
+                                    @Html.ValidationSummary(true)
+
+                                    <div class="row body clearfix">
+                                        <div class="col-sm-3">
+                                            <div class="col-sm-12">
+                                                <div class="form-group form-float">
+                                                    <div class="form-line">
+                                                        <input name="RoleName" id="RoleName" class="form-control"  required="" />
+                                                        @*   @Html.TextBoxFor(model => model.RoleName, new { @class = "form-control", required = "" })*@
+                                                        <label class="form-label">Role Name</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="col-sm-5">
+                                                <label>IsActive</label>
+                                            </div>
+                                            <div class="col-sm-7">
+                                                <div class="form-group form-float">
+                                                    <div class="form-line">
+                                                        <label class="switch">
+                                                            <input class="risactive" value="true" type="checkbox">
+                                                            <span class="slider round"></span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-md-offset-2 col-md-10">
+                                                    <button type="submit" onclick="saveRecord();" class="btn btn-danger btn-sm waves-effect">
+                                                        <i class="material-icons">save</i>
+                                                        <span>Save</span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div style="height:300px; overflow:auto;" class="col-sm-9">
+                                            <table id="table" class="table table-bordered table-responsive table-hover">
+                                                <thead>
+                                                    <tr class="thead">
+                                                        <th>Module</th>
+                                                        <th>View</th>
+                                                        <th>Save</th>
+                                                        <th>Delete</th>
+                                                        <th>Update</th>
+                                                        <th>Print</th>
+                                                        <th>Restore</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                     @foreach (var item in Model)
+                                                     { 
+                                                     <tr>
+                                                         <td style="display:none;" class="rmoduleid">@Html.DisplayFor(modelitem => item.FormID)</td>
+                                                        <td class="rmodule">@Html.DisplayFor(modelitem => item.MenuName)</td>
+                                                        <td>
+                                                            <label title="View" class="switch">
+                                                                <input class="risview" value="true" type="checkbox">
+                                                                <span class="slider round"></span>
+                                                            </label>
+                                                        </td>
+                                                        <td>
+                                                            <label title="Save" class="switch">
+                                                                <input class="rissave" value="true" type="checkbox">
+                                                                <span class="slider round"></span>
+                                                            </label>
+                                                        </td>
+                                                        <td>
+                                                            <label title="Delete" class="switch">
+                                                                <input class="risdelete" value="true" type="checkbox">
+                                                                <span class="slider round"></span>
+                                                            </label>
+                                                        </td>
+                                                        <td>
+                                                            <label title="Update" class="switch">
+                                                                <input class="risupdate" value="true" type="checkbox">
+                                                                <span class="slider round"></span>
+                                                            </label>
+                                                        </td>
+                                                        <td>
+                                                            <label title="Print" class="switch">
+                                                                <input class="risprint" value="true" type="checkbox">
+                                                                <span class="slider round"></span>
+                                                            </label>
+                                                        </td>
+                                                        <td>
+                                                            <label title="Restore" class="switch">
+                                                                <input class="risrestore" value="true" type="checkbox">
+                                                                <span class="slider round"></span>
+                                                            </label>
+                                                        </td>
+
+                                                    </tr>
+                                                     }
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <hr />
+                                    
+                                </div>
+                            }
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+
+<script type="text/javascript">
+
+    var MASTER_ID;
+    function saveRecord() {
+        // Master Record***
+        //  VendorId = $('#VendorId').val()
+        var master = [{
+            "_RoleName": $('#RoleName').val(),
+            "_IsAcive": $('.risactive').val()
+        }];
+
+        //Detail Records***
+        var details = [];
+
+        $('#table tbody tr').each(function (i, e) {
+            var $row = $(e);
+
+            //check data
+            //alert($row.find("input[class='risview']:checked").val());
+            //alert($row.find("input[class='riscreate']:checked").val());
+            //alert($row.find("input[class='risedit']:checked").val());
+            //alert($row.find("input[class='risdelete']:checked").val());
+           // alert($row.find('.rmoduleid').text());
+            var d = {
+
+                "_formid": $row.find('.rmoduleid').text(),
+                "_isview": $row.find("input[class='risview']:checked").val(),
+                "_issave": $row.find("input[class='rissave']:checked").val(),
+                "_isupdate": $row.find("input[class='risupdate']:checked").val(),
+                "_isdelete": $row.find("input[class='risdelete']:checked").val(),
+                "_isprint": $row.find("input[class='risprint']:checked").val(),
+                "_isrestore": $row.find("input[class='risrestore']:checked").val(),
+
+            };
+            details.push(d);
+        });
+
+
+        //Master and details array****
+        master = JSON.stringify(master);
+        details = JSON.stringify(details);
+        //Send Data To Server Action***
+        $.post('@Url.Action("Save")', { Details: details, Master: master })
+            .done(function (data) {
+                //MASTER_ID = data;
+                //$('.items').remove();
+                //sessionStorage.setItem('tmsg', 'Data Save Scussfully');
+                alert("Data Saved!")
+                location.reload();
+                printYes();
+
+
+            })
+            .fail(function (data) {
+                //  alert("Fail");
+                sessionStorage.setItem('tmsg', 'Save Failed');
+                alert("Data Saved failed!")
+
+                console.log(data);
+            })
+    }
+
+</script>
+
+
+
+
+

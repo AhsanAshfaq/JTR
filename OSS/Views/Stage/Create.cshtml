@@ -1,0 +1,78 @@
+﻿@model OSS.Models.tblStage
+
+@{
+    ViewBag.Title = "Create";
+}
+ <!-- Bootstrap Select Css -->
+<link href="~/theme/plugins/bootstrap-select/css/bootstrap-select.css" rel="stylesheet" />
+<section class="content">
+    <div class="container-fluid">
+        <!-- Basic Examples -->
+        <div class="row clearfix demo-icon-container">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="card">
+                    <div class="body">
+                        @using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "form_validation" }))
+                        {
+                            @Html.AntiForgeryToken()
+
+                            <div class="form-horizontal">
+                                <a title="Back To List" href='@Url.Action("Index", "Stage")' class="btn btn-danger btn-circle waves-effect waves-circle waves-float">
+                                    <i class="material-icons">arrow_back </i>
+                                </a> <b class="icon-name title-lable"> Create New Stage</b>
+                                
+                                <hr />
+                                @Html.ValidationSummary(true)
+
+                                <div class="row body clearfix">
+                                    <div class="col-sm-3">
+                                        <div class="form-group form-float">
+                                            <div class="form-line">
+                                                @Html.TextBoxFor(model => model.StageName, new { @class = "form-control", required = "" })
+                                                <label class="form-label">Stage Name</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-sm-3">
+                                        <div class="form-line">
+                                            @Html.DropDownList("SchoolID", null, "Select School", new { @class = "form-control" })
+
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-3">
+                                        <div class="form-group form-float ">
+                                            <div class="form-line">
+                                                @Html.DropDownList("RoleID", null, "Select Role", new { @class = "form-control" })
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr />
+                                <div class="form-group">
+                                    <div class="col-md-offset-2 col-md-10">
+                                        <button type="submit" class="btn btn-danger btn-sm waves-effect">
+                                            <i class="material-icons">save</i>
+                                            <span>Save</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+                       
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+
+
+
+
+

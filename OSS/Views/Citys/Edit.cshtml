@@ -1,0 +1,73 @@
+﻿@model OSS.Models.tblCity
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<link href="~/theme/plugins/bootstrap-select/css/bootstrap-select.css" rel="stylesheet" />
+<section class="content">
+    <div class="container-fluid">
+        <!-- Basic Examples -->
+        <div class="row clearfix demo-icon-container">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="card">
+                    <div class="body">
+                        @using (Html.BeginForm())
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.ValidationSummary(true)
+                            @Html.HiddenFor(model => model.CityID)
+
+                            <div class="form-horizontal">
+                                <a title="Back To List" href='@Url.Action("Index", "City")' class="btn btn-danger btn-circle waves-effect waves-circle waves-float">
+                                    <i class="material-icons">arrow_back </i>
+                                </a> <b class="icon-name title-lable"> Edit City</b>
+                                <hr />
+                                <div class="row body clearfix">
+                                    <div class="col-sm-3">
+                                        <div class="form-group form-float">
+                                            
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-sm-3">
+                                        <div class="form-group form-float ">
+                                            <div title="Role" class="form-line">
+                                                @Html.DropDownList("CountryID", null, string.Empty, new { @class = "form-control" })
+                                            </div>
+                                            <div title="Role" class="form-line">
+                                                @Html.DropDownList("ProvinceID", null, string.Empty, new { @class = "form-control" })
+                                            </div>
+                                        </div>
+                                        <div class="form-line">
+                                            @Html.TextBoxFor(model => model.CityName, new { @class = "form-control required" })
+                                            <label class="form-label">City Name</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr />
+                                <div class="form-group">
+                                    <div class="col-md-offset-2 col-md-10">
+                                       
+                                        <button type="submit" class="btn btn-danger btn-sm waves-effect">
+                                            <i class="material-icons">edit</i>
+                                            <span>Edit</span>
+                                        </button>
+                                    </div>
+                                </div>
+                               
+                            </div>
+                        }
+
+                      
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+
+

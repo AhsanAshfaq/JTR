@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="fa63bd71e88f47e3991229f48e38a66f" Name="Diagram1">
+        <EntityTypeShape EntityType="Oss_JTRModel.tblAcademicQulDtl" Width="1.5" PointX="2.75" PointY="5.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.tblAccount" Width="1.5" PointX="4.75" PointY="5.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.tblAccountsOBDtl" Width="1.5" PointX="6.75" PointY="0.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.tblAccountsOBMst" Width="1.5" PointX="6.75" PointY="3.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.tblActiveSchool" Width="1.5" PointX="8.75" PointY="0.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.tblActiveSession" Width="1.5" PointX="8.75" PointY="4.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.tblAdmission" Width="1.5" PointX="6.75" PointY="8.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.tblAdverSourceDtl" Width="1.5" PointX="8.75" PointY="8.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.tblAdvertismentSource" Width="1.5" PointX="0.75" PointY="9.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.tblAllowance" Width="1.5" PointX="10.75" PointY="0.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.tblAllowanceType" Width="1.5" PointX="10.75" PointY="5.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.tblApplyInstallment" Width="1.5" PointX="10.75" PointY="9.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.tblArea" Width="1.5" PointX="2.75" PointY="11.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.tblAttendanceLog" Width="1.5" PointX="12.75" PointY="0.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.tblBank" Width="1.5" PointX="12.75" PointY="3.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.tblBankPaymentDtl" Width="1.5" PointX="0.75" PointY="4.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.tblBankPaymentMst" Width="1.5" PointX="12.75" PointY="8.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.tblBankReceiptDtl" Width="1.5" PointX="4.75" PointY="0.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.tblBankReceiptMst" Width="1.5" PointX="14.75" PointY="0.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.tblBrand" Width="1.5" PointX="4.75" PointY="14.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.tblBrEduDtl" Width="1.5" PointX="14.75" PointY="6.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.tblCashPaymentDtl" Width="1.5" PointX="2.75" PointY="0.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.tblCashPaymentMst" Width="1.5" PointX="6.75" PointY="14.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.tblCashReceiptDtl" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.tblCashReceiptMst" Width="1.5" PointX="8.75" PointY="14.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.tblCategory" Width="1.5" PointX="14.75" PointY="9.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.tblChallanNo" Width="1.5" PointX="10.75" PointY="14.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.tblCity" Width="1.5" PointX="12.75" PointY="14.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.tblClassDtl" Width="1.5" PointX="14.75" PointY="13.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.tblClassMst" Width="1.5" PointX="16.75" PointY="0.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.tblConfiguration" Width="1.5" PointX="0.75" PointY="16.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.tblConObserDtl" Width="1.5" PointX="16.75" PointY="5.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.tblCountry" Width="1.5" PointX="16.75" PointY="9.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.tblDefineCourseDtl" Width="1.5" PointX="16.75" PointY="14.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.tblDefineCourseMst" Width="1.5" PointX="14.75" PointY="17.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.tblDefineFeesDtl" Width="1.5" PointX="16.75" PointY="17.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.tblDefineFeesMst" Width="1.5" PointX="18.75" PointY="0.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.tblDefineFeesStudentDtl" Width="1.5" PointX="2.75" PointY="18.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.tblDefineFeesStudentMst" Width="1.5" PointX="18.75" PointY="5.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.tblDefineSalaryDtl" Width="1.5" PointX="18.75" PointY="10.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.tblDefineSalaryMst" Width="1.5" PointX="18.75" PointY="13.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.tblDefineSubjectDtl" Width="1.5" PointX="18.75" PointY="18.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.tblDefineSubjectMst" Width="1.5" PointX="10.75" PointY="19.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.tblDepartment" Width="1.5" PointX="20.75" PointY="0.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.tblDesignation" Width="1.5" PointX="20.75" PointY="4.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.tblDiscount" Width="1.5" PointX="4.75" PointY="20.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.tblDocDtl" Width="1.5" PointX="6.75" PointY="20.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.tblDocument" Width="1.5" PointX="20.75" PointY="9.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.tblEmployee" Width="1.5" PointX="20.75" PointY="13.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.tblEmployeeAttendanceDtl" Width="1.5" PointX="16.75" PointY="21.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.tblEmployeeAttendanceMst" Width="1.5" PointX="22.75" PointY="0.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.tblExam" Width="1.5" PointX="22.75" PointY="5.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.tblExamResultDtl" Width="1.5" PointX="22.75" PointY="10.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.tblExamResultMst" Width="1.5" PointX="12.75" PointY="22.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.tblFamilyDtl" Width="1.5" PointX="22.75" PointY="13.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.tblFamilyMst" Width="1.5" PointX="22.75" PointY="16.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.tblFeesPayDtl" Width="1.5" PointX="22.75" PointY="20.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.tblFeesPayMst" Width="1.5" PointX="6.75" PointY="23.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.tblFeesReceiveDtl" Width="1.5" PointX="22.75" PointY="23.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.tblFeesReceiveMst" Width="1.5" PointX="24.75" PointY="0.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.tblFeesType" Width="1.5" PointX="24.75" PointY="6.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.tblForms" Width="1.5" PointX="8.75" PointY="24.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.tblGenerateAllowanceDtl" Width="1.5" PointX="24.75" PointY="11.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.tblGenerateAllowanceMst" Width="1.5" PointX="14.75" PointY="24.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.tblGenerateFeesCFDtl" Width="1.5" PointX="24.75" PointY="15.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.tblGenerateFeesDtl" Width="1.5" PointX="16.75" PointY="24.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.tblGenerateFeesMst" Width="1.5" PointX="24.75" PointY="18.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.tblGenerateSalaryDtl" Width="1.5" PointX="18.75" PointY="24.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.tblGenerateSalaryMst" Width="1.5" PointX="24.75" PointY="24.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.tblGrade" Width="1.5" PointX="2.75" PointY="25.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.tblInstallment" Width="1.5" PointX="26.75" PointY="0.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.tblJournalVoucherDtl" Width="1.5" PointX="26.75" PointY="5.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.tblJournalVoucherMst" Width="1.5" PointX="26.75" PointY="8.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.tblLoanAdvPayment" Width="1.5" PointX="26.75" PointY="13.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.tblManualSalaryPayDtl" Width="1.5" PointX="26.75" PointY="19.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.tblManualSalaryPayMst" Width="1.5" PointX="26.75" PointY="23.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.tblMessageFormat" Width="1.5" PointX="20.75" PointY="27.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.tblModules" Width="1.5" PointX="28.75" PointY="0.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.tblOpeningQtyDtl" Width="1.5" PointX="28.75" PointY="3.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.tblOpeningQtyMst" Width="1.5" PointX="28.75" PointY="6.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.tblOtherDeduction" Width="1.5" PointX="28.75" PointY="11.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.tblPara" Width="1.5" PointX="28.75" PointY="17.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.tblParaDtl" Width="1.5" PointX="28.75" PointY="22.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.tblProduct" Width="1.5" PointX="28.75" PointY="26.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.tblProvince" Width="1.5" PointX="4.75" PointY="29.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.tblPurchaseInvoice2Dtl" Width="1.5" PointX="10.75" PointY="29.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.tblPurchaseInvoice2Mst" Width="1.5" PointX="30.75" PointY="0.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.tblQualification" Width="1.5" PointX="0.75" PointY="30.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.tblRank" Width="1.5" PointX="6.75" PointY="30.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.tblReligion" Width="1.5" PointX="30.75" PointY="7.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.tblRequisition" Width="1.5" PointX="30.75" PointY="12.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.tblRights" Width="1.5" PointX="12.75" PointY="30.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.tblRoles" Width="1.5" PointX="14.75" PointY="30.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.tblSaleInvoice2Dtl" Width="1.5" PointX="30.75" PointY="19.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.tblSaleInvoice2Mst" Width="1.5" PointX="22.75" PointY="30.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.tblSchool" Width="1.5" PointX="30.75" PointY="24.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.tblSection" Width="1.5" PointX="24.75" PointY="30.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.tblSecurity" Width="1.5" PointX="16.75" PointY="31.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.tblSession" Width="1.5" PointX="18.75" PointY="31.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.tblStage" Width="1.5" PointX="32.75" PointY="0.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.tblStudentAttendanceDtl" Width="1.5" PointX="32.75" PointY="4.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.tblStudentAttendanceMst" Width="1.5" PointX="32.75" PointY="7.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.tblStudentRegMst" Width="1.5" PointX="32.75" PointY="12.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.tblStudentsInfo" Width="1.5" PointX="32.75" PointY="27.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.tblSubject" Width="1.5" PointX="32.75" PointY="32.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.tblTranClassMst" Width="1.5" PointX="26.75" PointY="33.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.tblTranFromClassDtl" Width="1.5" PointX="28.75" PointY="33.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.tblTranToClassDtl" Width="1.5" PointX="34.75" PointY="0.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.tblUser" Width="1.5" PointX="0.75" PointY="34.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.tblVendor" Width="1.5" PointX="2.75" PointY="34.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.tblGeneralLedger" Width="1.5" PointX="34.75" PointY="3.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.tblStockBalance" Width="1.5" PointX="34.75" PointY="8.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.V_Ledger" Width="1.5" PointX="8.75" PointY="34.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.Vu_BankPayment" Width="1.5" PointX="10.75" PointY="34.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.Vu_BankReceipt" Width="1.5" PointX="12.75" PointY="34.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.Vu_CashPayment" Width="1.5" PointX="34.75" PointY="14.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.Vu_CashReceipt" Width="1.5" PointX="14.75" PointY="34.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.Vu_CasualLeaves" Width="1.5" PointX="34.75" PointY="19.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.Vu_ChartOfAccounts" Width="1.5" PointX="34.75" PointY="22.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.Vu_Class" Width="1.5" PointX="34.75" PointY="27.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.Vu_EmployeesLedger" Width="1.5" PointX="34.75" PointY="33.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.Vu_LoanAdvance" Width="1.5" PointX="4.75" PointY="35.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.Vu_PendingCheques" Width="1.5" PointX="36.75" PointY="0.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.Vu_ProfitandLossProductWise" Width="1.5" PointX="36.75" PointY="4.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.Vu_RefundableFees" Width="1.5" PointX="36.75" PointY="8.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.Vu_SickLeaves" Width="1.5" PointX="16.75" PointY="36.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.Vu_StudentLedger" Width="1.5" PointX="36.75" PointY="17.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.Vu_StudentsInfo" Width="1.5" PointX="18.75" PointY="36.75" />
+        <EntityTypeShape EntityType="Oss_JTRModel.Vu_StudentsList" Width="1.5" PointX="36.75" PointY="28.75" />
+        <AssociationConnector Association="Oss_JTRModel.FK_tblVoucherDetail_tblVoucherDetail" />
+        <AssociationConnector Association="Oss_JTRModel.FK_tblBankReceiptDetail_tblBankReceiptDetail" />
+        <AssociationConnector Association="Oss_JTRModel.FK_tblCashPaymentDetail_tblCashPaymentDetail" />
+        <AssociationConnector Association="Oss_JTRModel.FK_tblCashReceiptDtl_tblCashReceiptDtl" />
+        <AssociationConnector Association="Oss_JTRModel.FK__tblAdmission__BankID" />
+        <AssociationConnector Association="Oss_JTRModel.FK__tblAdmission__DiscountID" />
+        <AssociationConnector Association="Oss_JTRModel.FK__tblAdmission__RegID" />
+        <AssociationConnector Association="Oss_JTRModel.FK__tblDefineFeesStudentDtl__AdmissionID" />
+        <AssociationConnector Association="Oss_JTRModel.FK__tblFeesReceiveMst__AdmissionID" />
+        <AssociationConnector Association="Oss_JTRModel.FK__tblgenerateFeesDtl__AdmissionID" />
+        <AssociationConnector Association="Oss_JTRModel.FK__tblArea__City" />
+        <AssociationConnector Association="Oss_JTRModel.FK__tblArea__Country" />
+        <AssociationConnector Association="Oss_JTRModel.FK__tblArea__Province" />
+        <AssociationConnector Association="Oss_JTRModel.FK__tblStuden__AreaID" />
+        <AssociationConnector Association="Oss_JTRModel.FK__tblCity__Country" />
+        <AssociationConnector Association="Oss_JTRModel.FK__tblCity__Province" />
+        <AssociationConnector Association="Oss_JTRModel.FK__tblStuden__CityID" />
+        <AssociationConnector Association="Oss_JTRModel.FK__tblClassDtl__ClassID" />
+        <AssociationConnector Association="Oss_JTRModel.FK__tblClassDtl__SectionID" />
+        <AssociationConnector Association="Oss_JTRModel.FK__tblClassDtl__STageID" />
+        <AssociationConnector Association="Oss_JTRModel.FK__tblDefineFeesMst__ClassID" />
+        <AssociationConnector Association="Oss_JTRModel.FK__tblDefineFeesStudentMst__ClassID" />
+        <AssociationConnector Association="Oss_JTRModel.FK__tblgenerateFeesDtl__CLassID" />
+        <AssociationConnector Association="Oss_JTRModel.FK__tblStuden__Class" />
+        <AssociationConnector Association="Oss_JTRModel.FK__tblCountry__Country" />
+        <AssociationConnector Association="Oss_JTRModel.FK__tblStuden__Country" />
+        <AssociationConnector Association="Oss_JTRModel.FK__tblDefineFeesDtl__DefineFeesStudentID" />
+        <AssociationConnector Association="Oss_JTRModel.FK__tblDefineFeesDtl__FeesTypeID" />
+        <AssociationConnector Association="Oss_JTRModel.FK__tblDefineFeesMst__SectionID" />
+        <AssociationConnector Association="Oss_JTRModel.FK__tblDefineFeesMst__StageID" />
+        <AssociationConnector Association="Oss_JTRModel.FK__tblDefineFeesStudentDtl__DefineFeesStudentID" />
+        <AssociationConnector Association="Oss_JTRModel.FK__tblDefineFeesStudentMst__SectionID" />
+        <AssociationConnector Association="Oss_JTRModel.FK__tblDefineFeesStudentMst__StageID" />
+        <AssociationConnector Association="Oss_JTRModel.FK__tblgenerateFeesDtl__DiscountID" />
+        <AssociationConnector Association="Oss_JTRModel.FK__tblFeesReceiveDtl__GenFeesDtlID" />
+        <AssociationConnector Association="Oss_JTRModel.FK__tblFeesReceiveMst__FeesReceiveMstID" />
+        <AssociationConnector Association="Oss_JTRModel.FK__tblFeesReceiveMst__SessionID" />
+        <AssociationConnector Association="Oss_JTRModel.FK__tblgenerateFeesDtl__FeesTypeID" />
+        <AssociationConnector Association="Oss_JTRModel.FK__tblGenerateFeesCFDtl__GenFeesMStID" />
+        <AssociationConnector Association="Oss_JTRModel.FK__tblgenerateFeesDtl__GenFeesMStID" />
+        <AssociationConnector Association="Oss_JTRModel.FK__tblgenerateFeesDtl__SectionID" />
+        <AssociationConnector Association="Oss_JTRModel.FK__tblgenerateFeesDtl__StageID" />
+        <AssociationConnector Association="Oss_JTRModel.FK__tblStuden__Province" />
+        <AssociationConnector Association="Oss_JTRModel.FK__tblStuden__Religion" />
+        <AssociationConnector Association="Oss_JTRModel.FK__tblUser__RoleID" />
+        <AssociationConnector Association="Oss_JTRModel.FK__tblStuden__Section" />
+        <AssociationConnector Association="Oss_JTRModel.FK__tblStuden__Stage__3552E9B6" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

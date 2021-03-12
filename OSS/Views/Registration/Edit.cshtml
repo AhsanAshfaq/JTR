@@ -1,0 +1,653 @@
+﻿@model OSS.Models.tblStudentRegMst
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+
+<section class="content">
+    <div class="container-fluid">
+        <!-- Basic Examples -->
+        <div class="row clearfix demo-icon-container">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="card">
+                    <div class="body">
+                        @using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "form_validation" }))
+                        {
+                            @Html.HiddenFor(model => model.RegID)
+                            @Html.AntiForgeryToken()
+
+                            <div class="form-horizontal">
+                                <a title="Back To List" href='@Url.Action("Index", "Registration")' class="btn btn-danger btn-circle waves-effect waves-circle waves-float">
+                                    <i class="material-icons">arrow_back </i>
+                                </a> <b class="icon-name title-lable"> New Registration</b>
+
+                                <hr />
+                                @Html.ValidationSummary(true)
+
+                                <div class="row body clearfix">
+                                    <fieldset>
+                                        <legend class="text-danger">Student Information:</legend>
+                                        <div class="col-sm-3">
+                                            <div class="form-group form-float">
+                                                <div class="form-line">
+                                                    @Html.TextBoxFor(model => model.ApplicantName, new { @class = "form-control", required = "" })
+                                                    <label class="form-label">Applicant Name</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="form-group form-float">
+                                                <div class="form-line">
+                                                    @Html.TextBoxFor(model => model.ApplicantNameInUrdu, new { @class = "form-control", required = "" })
+                                                    <label class="form-label">Applicant Name in Urdu</label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-sm-3">
+                                            <div class="form-group form-float">
+                                                <div class="form-line">
+                                                    @Html.TextBoxFor(m => m.PostDate, "{0:d-MMM-yyyy}", new { @class = "datepicker form-control", required = "", @placeholder = "Post Date..." })
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <div class="form-group form-float">
+                                                <div class="form-line">
+                                                    @Html.TextBoxFor(m => m.DateOfBirth, "{0:d-MMM-yyyy}", new { @class = "datepicker form-control", required = "", @placeholder = "Date Of Birth..." })
+                                                   
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-1">
+                                            <div class="form-group form-float ">
+                                                <div class="form-line focused">
+                                                    @Html.TextBoxFor(model => model.Age, new { @class = "form-control", @readonly = "true", required = "" })
+                                                    <label class="form-label ">Age</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="form-group form-float">
+                                                <div class="form-line focused">
+                                                    @*<input type="radio" name="gender" id="male" class="with-gap">
+                                                        <label for="male">Male</label>
+                                                        <input type="radio" name="gender" id="female" class="with-gap">
+                                                        <label for="female" class="m-l-20">Female</label>
+                                                        <label class="form-label ">Gender</label>*@
+
+                                                    @Html.RadioButtonFor(model => model.Gender, true, new { @class = "with-gap", id = "male", @checked = "true" })
+                                                    @Html.LabelFor(model => model.Gender, "Male", new { @class = "with-gap", @for = "male" })
+                                                    @Html.RadioButtonFor(model => model.Gender, false, new { @class = "with-gap", id = "female" })
+                                                    @Html.LabelFor(model => model.Gender, "Female ", new { @class = "with-gap", @for = "female" })
+                                                    <label class="form-label ">Gender</label>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="form-group form-float">
+                                                <div class="form-line focused">
+                                                  
+                                                   @Html.DropDownList("ReligionID", null, "Select Religion", new { @class = "form-control", required = "" })
+                                                    <label class="form-label ">Religion</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="form-group form-float">
+                                                <div class="form-line focused">
+                                                    @Html.DropDownList("StageID", null, "Select Stage", new { @class = "form-control", onchange = "dropdownfill($(this).attr('id'),'ClassID')", required = "" })
+                                                    <label class="form-label ">Stage</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="form-group form-float">
+                                                <div class="form-line focused">
+                                                    @Html.DropDownList("ClassID", null, "Select Class", new { @class = "form-control", onchange = "dropdownfill($(this).attr('id'),'SectionID')", required = "" })
+                                                   @* <select class="form-control" id="ClassID" name="ClassID" onchange="dropdownfill($(this).attr('id'), 'SectionID')"></select>*@
+                                                    <label class="form-label ">Class</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="form-group form-float">
+                                                <div class="form-line focused">
+                                                    @*@Html.TextBoxFor(model => model.SectionID, new { @class = "form-control", required = "" })
+                                                        <label class="form-label">Section</label>*@
+                                                    <select class="form-control" id="SectionID" name="SectionID"></select>
+                                                    <label class="form-label ">Section</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="form-group form-float">
+                                                <div class="form-line focused">
+                                                    @Html.TextBoxFor(model => model.DarsgahID, new { @class = "form-control", required = "" })
+
+                                                    <label class="form-label">Darsgah</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="form-group form-float">
+                                                <div class="form-line">
+                                                    @Html.TextBoxFor(model => model.BloodGroup, new { @class = "form-control", required = "" })
+                                                    <label class="form-label">Blood Group</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="form-group form-float">
+                                                <div class="form-line focused">
+                                                    @* @Html.TextBoxFor(model => model.SessionID, new { @class = "form-control", required = "" })*@
+                                                    @Html.DropDownList("SessionID", null, "Select Session", new { @class = "form-control", required = "" })
+                                                    <label class="form-label ">Session</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="form-group form-float">
+                                                <div class="form-line">
+                                                    @Html.TextBoxFor(model => model.BFormNo, new { @class = "form-control", required = "" })
+                                                    <label class="form-label">B-Form No</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="form-group form-float">
+                                                <div class="form-line focused">
+                                                    @Html.DropDownList("CountryID", null, "Select Country", new { @class = "form-control", onchange = "dropdownfill($(this).attr('id'),'ProvinceID')", required = "" })
+                                                    <label class="form-label ">Country</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="form-group form-float">
+                                                <div class="form-line focused">
+                                                    @* @Html.TextBoxFor(model => model.ProvinceID, new { @class = "form-control", required = "" })*@
+                                                    <select class="form-control" id="ProvinceID" name="ProvinceID" onchange="dropdownfill($(this).attr('id'), 'CityID')"></select>
+                                                    <label class="form-label ">Province</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="form-group form-float">
+                                                <div class="form-line focused">
+                                                    <select class="form-control" id="CityID" name="CityID" onchange="dropdownfill($(this).attr('id'), 'AreaID')"></select>
+                                                    <label class="form-label ">City</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="form-group form-float">
+                                                <div class="form-line focused">
+                                                    <select class="form-control" id="AreaID" name="AreaID"></select>
+                                                    <label class="form-label ">Area</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="form-group form-float">
+                                                <div class="form-line">
+                                                    @Html.TextBoxFor(model => model.PhoneNo, new { @class = "form-control", required = "" })
+                                                    <label class="form-label">Phone No</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="form-group form-float">
+                                                <div class="form-line">
+                                                    @Html.TextBoxFor(model => model.MobileNo, new { @class = "form-control", required = "" })
+                                                    <label class="form-label">Mobile No</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="form-group form-float">
+                                                <div class="form-line">
+                                                    @Html.TextBoxFor(model => model.PermanentAddress, new { @class = "form-control", required = "" })
+                                                    <label class="form-label">Permanent Address</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="form-group form-float">
+                                                <div class="form-line">
+                                                    @Html.TextBoxFor(model => model.AddressInUrdu, new { @class = "form-control", required = "" })
+                                                    <label class="form-label">Address In Urdu</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="form-group form-float">
+                                                <div class="form-line">
+                                                    @Html.TextBoxFor(model => model.Remarks, new { @class = "form-control", required = "" })
+                                                    <label class="form-label">Remarks</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="form-group form-float">
+                                                <div class="form-line">
+                                                    @Html.TextBoxFor(model => model.LastSchoolAttended, new { @class = "form-control", required = "" })
+                                                    <label class="form-label">Last School Attend</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="form-group form-float">
+                                                <div class="form-line">
+                                                    @Html.TextBoxFor(model => model.LastClassAttended, new { @class = "form-control", required = "" })
+                                                    <label class="form-label">Last Class Attend</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="form-group form-float">
+                                                <div class="form-line">
+                                                    @Html.TextBoxFor(model => model.NativeLang, new { @class = "form-control", required = "" })
+                                                    <label class="form-label">Native Language</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="form-group form-float">
+                                                <div class="form-line">
+                                                    @Html.TextBoxFor(model => model.NameofSignatory, new { @class = "form-control", required = "" })
+                                                    <label class="form-label">Name Of Signatory</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="form-group form-float">
+                                                <div class="form-line focused">
+                                                    
+                                                    @Html.TextBoxFor(model => model.DateOfAdmission, "{0:d-MMM-yyyy}", new { @class = "datepicker form-control", required = "", @placeholder = "Date Of Admission..." })
+                                                    <label class="form-label">Date Of Admission</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="form-group form-float">
+                                                <div class="form-line">
+                                                    @Html.TextBoxFor(model => model.RelationtoStu, new { @class = "form-control", required = "" })
+                                                    <label class="form-label">Relation to Studand</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="form-group form-float">
+                                                <div class="form-line">
+                                                    @Html.TextBoxFor(model => model.DateOfRemoval, "{0:d-MMM-yyyy}", new { @class = "datepicker form-control", required = "" })
+                                                    <label class="form-label">Date Of Removal</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="form-group form-float">
+                                                <div class="form-line">
+                                                    @Html.TextBoxFor(model => model.ClassAtTimeOfRemoval, new { @class = "form-control", required = "" })
+
+                                                    <label class="form-label">Class at time of Removal</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="form-group form-float">
+                                                <div class="form-line">
+                                                    @Html.TextBoxFor(model => model.CauseOfRemoval, new { @class = "form-control", required = "" })
+                                                    <label class="form-label">Couse Of Removal</label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-3">
+                                            <div class="form-group form-float">
+                                                <div class="form-line">
+                                                    @Html.TextBoxFor(model => model.PortalID, new { @class = "form-control", required = "" })
+                                                    <label class="form-label">Portal ID</label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </fieldset>
+                                    <fieldset>
+                                        <legend class="text-danger">Father Information:</legend>
+                                        <div class="col-sm-3">
+                                            <div class="form-group form-float">
+                                                <div class="form-line">
+                                                    @Html.TextBoxFor(model => model.FatherName, new { @class = "form-control", required = "" })
+                                                    <label class="form-label">Father Name</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="form-group form-float">
+                                                <div class="form-line">
+                                                    @Html.TextBoxFor(model => model.FatherNameInUrdu, new { @class = "form-control", required = "" })
+                                                    <label class="form-label">Father Name In Urdu</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="form-group form-float">
+                                                <div class="form-line">
+                                                    @Html.TextBoxFor(model => model.FatherNIC, new { @class = "form-control", required = "" })
+                                                    <label class="form-label">Father NIC</label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-3">
+                                            <div class="form-group form-float">
+                                                <div class="form-line">
+                                                    @Html.TextBoxFor(model => model.FatherOccupation, new { @class = "form-control", required = "" })
+                                                    <label class="form-label">Father Occupation</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="form-group form-float">
+                                                <div class="form-line">
+                                                    @Html.TextBoxFor(model => model.FatherMobileNo, new { @class = "form-control", required = "" })
+                                                    <label class="form-label">Father Mob No</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="form-group form-float">
+                                                <div class="form-line">
+                                                    @Html.TextBoxFor(model => model.FatherMonthlySalary, new { @class = "form-control", required = "" })
+                                                    <label class="form-label">Father Salary</label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-3">
+                                            <div class="form-group form-float">
+                                                <div class="form-line">
+                                                    @Html.TextBoxFor(model => model.FatherQualification, new { @class = "form-control", required = "" })
+                                                    <label class="form-label">Father Qualification</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="form-group form-float">
+                                                <div class="form-line">
+                                                    @Html.TextBoxFor(model => model.FatherOfficePhoneNo, new { @class = "form-control", required = "" })
+                                                    <label class="form-label">Father Office Phone</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="form-group form-float">
+                                                <div class="form-line">
+                                                    @Html.TextBoxFor(model => model.GardianName, new { @class = "form-control", required = "" })
+                                                    <label class="form-label">Gardian Name</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="form-group form-float">
+                                                <div class="form-line">
+                                                    @Html.TextBoxFor(model => model.FatherOfficeAddress, new { @class = "form-control", required = "" })
+                                                    <label class="form-label">Father Office Adr.</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="form-group form-float">
+                                                <div class="form-line">
+                                                    <div class="form-line">
+                                                        @if(@Model.IsSendMsgtoFather == true)
+                                                        {
+                                                           <input class="filled-inn" value="true" checked id="smtf" name="IsSendMsgtoFather" type="checkbox" />
+                                                        }
+                                                        else
+                                                        {
+                                                            <input class="filled-inn" value="true" id="smtf" name="IsSendMsgtoFather" type="checkbox" />
+                                                        }
+                                                        
+
+                                                        <label for="smtf">Send Msg to Father</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                    <fieldset>
+                                        <legend class="text-danger">Mother Information:</legend>
+                                        <div class="col-sm-3">
+                                            <div class="form-group form-float">
+                                                <div class="form-line">
+                                                    @Html.TextBoxFor(model => model.MotherName, new { @class = "form-control", required = "" })
+                                                    <label class="form-label">Mother Name</label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-3">
+                                            <div class="form-group form-float">
+                                                <div class="form-line">
+                                                    @Html.TextBoxFor(model => model.MotherNIC, new { @class = "form-control", required = "" })
+                                                    <label class="form-label">Mother NIC</label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-sm-3">
+                                            <div class="form-group form-float">
+                                                <div class="form-line">
+                                                    @Html.TextBoxFor(model => model.MotherOccupation, new { @class = "form-control", required = "" })
+                                                    <label class="form-label">Mother Occupation</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="form-group form-float">
+                                                <div class="form-line">
+                                                    @Html.TextBoxFor(model => model.MotherMobileNo, new { @class = "form-control", required = "" })
+                                                    <label class="form-label">Mother Mob No</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="form-group form-float">
+                                                <div class="form-line">
+                                                    @Html.TextBoxFor(model => model.MotherMonthlySalary, new { @class = "form-control", required = "" })
+                                                    <label class="form-label">Mother Salary</label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-3">
+                                            <div class="form-group form-float">
+                                                <div class="form-line">
+                                                    @Html.TextBoxFor(model => model.MotherQualification, new { @class = "form-control", required = "" })
+                                                    <label class="form-label">Mother Qualification</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="form-group form-float">
+                                                <div class="form-line">
+                                                    @Html.TextBoxFor(model => model.MotherOfficePhoneNo, new { @class = "form-control", required = "" })
+                                                    <label class="form-label">Mother Office Phone</label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-3">
+                                            <div class="form-group form-float">
+                                                <div class="form-line">
+                                                    @Html.TextBoxFor(model => model.MotherOfficeAddress, new { @class = "form-control", required = "" })
+                                                    <label class="form-label">Mother Office Adr.</label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-3">
+                                            <div class="form-group form-float">
+                                                <div class="form-line">
+                                                    @if (@Model.IsSendMsgtoMother == true)
+                                                    {
+                                                         <input class="filled-in" id="remember_me_5" name="IsSendMsgtoMother" checked value="true" type="checkbox" />
+                                                    }
+                                                    else
+                                                    {
+                                                         <input class="filled-in" id="remember_me_5" name="IsSendMsgtoMother" value="true" type="checkbox" />
+                                                    }
+                                                   
+                                                    <label for="remember_me_5">Send Msg to Mother</label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </fieldset>
+                                    <fieldset>
+                                        <legend class="text-danger">Admission Information:</legend>
+                                        <div class="col-sm-2">
+                                            <div class="form-group form-float">
+                                                <div class="form-line">
+                                                    <input type="text" id="GRNo" name="GRNo" value="@ViewBag.tbladmission.GRNo" class="form-control" readonly="readonly" required="" />
+                                                    <label class="form-label">GR No.</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <div class="form-group form-float">
+                                                <div class="form-line">
+                                                    <input type="text" id="RollNo" name="RollNo" value="@ViewBag.tbladmission.RollNo" class="form-control" required="" />
+                                                    <label class="form-label">Roll No.</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <div class="form-group form-float">
+                                                <div class="form-line focused">
+
+                                                    @Html.DropDownList("BankID", null, "Select Bank", new { @class = "form-control", required = "" })
+                                                    <label class="form-label">Bank</label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-sm-2">
+                                            <div class="form-group form-float">
+                                                <div class="form-line">
+                                                    <input type="text" id="ChallanNo" name="ChallanNo" value="@ViewBag.tbladmission.ChallanNo" class="form-control" required="" />
+                                                    <label class="form-label">Challan No.</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <div class="form-group form-float">
+                                                <div class="form-line focused">
+                                                    @Html.DropDownList("DiscountID", null, "Select Discount", new { @class = "form-control" })
+                                                    <label class="form-label">Discount</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <div class="form-group form-float">
+                                                <div class=" form-line">
+                                                    @if(Convert.ToInt32(@ViewBag.tbladmission.Hostel) == 1)
+                                                    {
+                                                        <input type="checkbox" name="Hostel" id="Hostel" value=true checked class="filled-in">
+                                                    }
+                                                    else
+                                                    {
+                                                        <input type="checkbox" name="Hostel" id="Hostel" value=true class="filled-in">
+                                                    }
+                                                    <label for="Hostel">Hostel</label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </fieldset>
+                                </div>
+                                <hr />
+                                <div class="form-group">
+                                    <div class="col-md-offset-2 col-md-10">
+                                        <button type="submit" class="btn btn-danger btn-sm waves-effect">
+                                            <i class="material-icons">save</i>
+                                            <span>Save</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+<script>
+
+
+    function dropdownfill(id,bindid)
+    {
+        var name = id;
+        var id = "#" + id;
+        bindid = "#" + bindid;
+        var selectedId = $(id).val();
+        if (selectedId != "") {
+            $.ajax({
+                url: '@Url.Action("fill_dropdown", "Registration")',
+                type: "POST",
+                data: {
+                    "id": selectedId,
+                    "name": name
+                },
+                success: function (result) {
+                    console.log(result);
+                    $(bindid).html('');
+                    $(bindid).append($('<option>Select Location</option>'));
+                    $.each(result, function (id, option) {
+                        $(bindid).append($('<option></option>').val(option.id).html(option.name));
+                    });
+                },
+                error: function (result) {
+                    alert("Error");
+                }
+            });
+        } else {
+        }
+    }
+
+
+
+
+    $('#DateOfBirth').change(function (e) {
+        var now = new Date();
+        var past = new Date($('#DateOfBirth').val());
+        var nowYear = now.getFullYear();
+        var pastYear = past.getFullYear();
+        var age = nowYear - pastYear;
+        $('#Age').val(age);
+    });
+
+    $("document").ready(function () {
+        $('#ReligionID').val('@Model.ReligionID');
+        $('#StageID').val('@Model.StageID');
+        $('#SessionID').val('@Model.SessionID');
+        $('#CountryID').val('@Model.CountryID');
+        $('#BankID').val('@Model.CountryID');
+        $('#DiscountID').val('@Model.CountryID');
+    });
+</script>
+
+
+

@@ -1,0 +1,218 @@
+﻿@model OSS.Models.tblClassMst
+
+@{
+}
+
+<section class="content">
+    <div class="container-fluid">
+        <!-- Basic Examples -->
+        <div class="row clearfix demo-icon-container">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="card">
+                    <div class="body">
+                        @using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "form_validation" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.HiddenFor(model => model.ClassID)
+                            
+                            <div class="form-horizontal">
+                                <a title="Back To List" href='@Url.Action("Index", "Class")' class="btn btn-danger btn-circle waves-effect waves-circle waves-float">
+                                    <i class="material-icons">arrow_back </i>
+                                </a> <b class="icon-name title-lable"> Creat New Class</b>
+
+                                <hr />
+                                @Html.ValidationSummary(true)
+
+                                <div class="row body clearfix">
+                                    <div class="col-sm-9">
+                                        <div class="col-sm-4">
+                                            <div class="form-group form-float">
+                                                <div class="form-line">
+                                                    @Html.DropDownList("StageID", null, "", new { @class = "form-control", required = "" })
+                                                    @*   @Html.TextBoxFor(model => model.StageID, new { @class = "form-control", required = "" })*@
+                                                    <label class="form-label">Stage</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="form-group form-float">
+                                                <div class="form-line">
+                                                    @Html.TextBoxFor(model => model.ClassName, new { @class = "form-control", required = "" })
+                                                    <label class="form-label">Class Name</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="form-group form-float">
+                                                <div class="form-line">
+                                                    @Html.TextBoxFor(model => model.Prefix, new { @class = "form-control", required = "" })
+                                                    <label class="form-label">Prefix</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label>Generate Fees</label>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <div class="form-group form-float">
+                                                <div class="">
+                                                    <label class="switch">
+                                                        @if(@Model.GenerateFees == true)
+                                                        {<input class="generatefees" value="true" type="checkbox" checked>}
+                                                        else
+                                                        {<input class="generatefees" value="true" type="checkbox">}
+                                                        
+                                                        <span class="slider round"></span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label>Darsgha</label>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <div class="form-group form-float">
+                                                <div class="">
+                                                    <label class="switch">
+                                                        @if (@Model.IsDarsgah == true)
+                                                        {<input class="risdarasgah" value="true" type="checkbox" checked>}
+                                                        else
+                                                        {<input class="risdarasgah" value="true" type="checkbox">}
+                                                        <span class="slider round"></span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label>Status</label>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <div class="form-group form-float">
+                                                <div class="">
+                                                    <label class="switch">
+                                                        @if (@Model.IsActive == true)
+                                                            {<input class="risactive" value="true" type="checkbox" checked>}
+                                                            else
+                                                            {<input class="risactive" value="true" type="checkbox">}
+                                                        
+                                                        <span class="slider round"></span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-md-offset-2 col-md-10">
+                                                <button type="submit" onclick="saveRecord();" class="btn btn-danger btn-sm waves-effect">
+                                                    <i class="material-icons">save</i>
+                                                    <span>Save</span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style="height:300px; overflow:auto;" class="col-sm-3">
+                                        <table id="table" class="table table-bordered table-responsive table-hover">
+                                            <thead>
+                                                <tr class="thead">
+                                                    <th>Section</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var item in ViewBag.section)
+                                                {
+                                                    <tr>
+                                                        @*<td class="_ClassDtlID">@item.SectionID</td>*@
+                                                        <td>
+                                                            <b>@item.SectionName</b>
+                                                            <label title="View" class="switch">
+                                                                @if (@Model.IsActive == true)
+                                                                {<input class="rissection" value="@item.SectionID" type="checkbox" checked>}
+                                                                else
+                                                                {<input class="rissection" value="@item.SectionID" type="checkbox">}
+                                                                
+                                                                <span class="slider round"></span>
+                                                            </label>
+                                                        </td>
+                                                    </tr>
+                                                }
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <hr />
+
+                            </div>
+                        }
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+
+<script type="text/javascript">
+
+    var MASTER_ID;
+    function saveRecord() {
+        //alert();
+        // Master Record***
+     //   "_isview": $row.find("input[class='risview']:checked").val(),
+        //  VendorId = $('#VendorId').val()
+        var master = [{
+            "_ClassID": $('#ClassID').val(),
+            "_StageID": $('#StageID').val(),
+            "_Prefix": $('#Prefix').val(),
+            "_ClassName": $('#ClassName').val(),
+            "_generatefees": $("input[class='generatefees']:checked").val(),
+            "_risdarasgah": $("input[class='risdarasgah']:checked").val(),
+            "_IsAcive": $("input[class='risactive']:checked").val()
+        }];
+
+        //Detail Records***
+        var details = [];
+
+        $('#table tbody tr').each(function (i, e) {
+            var $row = $(e);
+
+            //check data
+            //alert($row.find("input[class='risview']:checked").val());
+            //alert($row.find("input[class='riscreate']:checked").val());
+            //alert($row.find("input[class='risedit']:checked").val());
+            //alert($row.find("input[class='risdelete']:checked").val());
+            // alert($row.find('.rmoduleid').text());
+            var d = {
+                "_SectionID": $row.find("input[class='rissection']:checked").val(),
+            };
+            details.push(d);
+        });
+
+
+        //Master and details array****
+        master = JSON.stringify(master);
+        details = JSON.stringify(details);
+        //Send Data To Server Action***
+        $.post('@Url.Action("EditRecord")', { Details: details, Master: master })
+            .done(function (data) {
+                //MASTER_ID = data;
+                //$('.items').remove();
+                //sessionStorage.setItem('tmsg', 'Data Save Scussfully');
+                alert("Data Saved!")
+                location.reload();
+            //    printYes();
+
+
+            })
+            .fail(function (data) {
+                //  alert("Fail");
+                sessionStorage.setItem('tmsg', 'Save Failed');
+                alert("Data Saved failed!")
+
+                console.log(data);
+            })
+    }
+
+</script>

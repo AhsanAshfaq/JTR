@@ -1,0 +1,55 @@
+﻿@model OSS.Models.tblProvince
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<section class="content">
+    <div class="container-fluid">
+        <!-- Basic Examples -->
+        <div class="row clearfix demo-icon-container">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="card">
+                    <div class="body">
+                       
+                            <div class="form-horizontal">
+                                <a title="Back To List" href='@Url.Action("Index", "Province")' class="btn btn-danger btn-circle waves-effect waves-circle waves-float">
+                                    <i class="material-icons">arrow_back </i>
+                                </a> <b class="icon-name title-lable">Province Details</b>
+                                <hr />
+                                <div class="row body clearfix">
+                                    <div class="col-sm-2">
+                                        <div class="form-group form-float">
+                                            
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-2">
+                                        <div class="form-group form-float ">
+                                            <div class="">
+                                                @*Html.DropDownList("CountryID"Select Country", new { @class = "form-control" })*@
+                                            </div>
+                                            <div class="">
+                                                @*Html.DropDownList("ProvinceID"Select Province", new { @class = "form-control" })*@
+                                            </div>
+                                            <div class="">
+                                                @*Html.DropDownList("CityID"Select City", new { @class = "form-control" })*@
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="">
+                                        <label>Province Name</label><br />
+                                        @Html.DisplayFor(model => model.ProvinceName)
+
+                                    </div>
+                                </div>
+                              
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+

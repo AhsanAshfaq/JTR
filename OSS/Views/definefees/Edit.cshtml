@@ -1,0 +1,310 @@
+﻿@model OSS.Models.tblDefineFeesMst
+@{
+    var feeTypes = (List<OSS.Models.tblFeesType>)ViewBag.feeTypes;
+    var feeTypesCount = feeTypes.Count;
+    var counter = 0;
+}
+
+<section class="content">
+    <div class="container-fluid">
+        <!-- Basic Examples -->
+        <div class="row clearfix demo-icon-container">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="card">
+                    <div class="body">
+                        @using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "defineFeesForm" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            <div class="form-horizontal">
+                                <a title="Back To List" href='@Url.Action("Index", "definefee")' class="btn btn-danger btn-circle waves-effect waves-circle waves-float">
+                                    <i class="material-icons">arrow_back </i>
+                                </a> <b class="icon-name title-lable">Define Fees</b>
+                                <hr />
+                                @Html.ValidationSummary(true)
+                                <div class="row body clearfix">
+                                    <div class="col-sm-3">
+                                        <div class="form-group form-float">
+                                            <div class="form-line">
+                                                <label class="form-label">Select Statge</label>
+                                                <select id="stage" class="form-control" onchange="dropdownfill($(this).attr('id'), 'ClassID')">
+                                                    @foreach (var item in (List<OSS.Models.tblStage>)ViewBag.StageList)
+                                                    {
+                                                        if (item.StageID == Model.StageID)
+                                                        {
+                                                            <option selected="selected" value="@item.StageID">@item.StageName</option>
+                                                        }
+                                                        else
+                                                        {
+                                                            <option value="@item.StageID">@item.StageName</option>
+                                                        }
+                                                    }
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group form-float">
+                                            <div class="form-line">
+                                                <select required="" class="form-control" id="ClassID" name="ClassID" onchange="dropdownfill($(this).attr('id'), 'SectionID')">
+                                                    @foreach (var item in (List<OSS.Models.tblClassMst>)ViewBag.ClassList)
+                                                    {
+                                                        if (item.ClassID == Model.ClassID)
+                                                        {
+                                                            <option selected="selected" value="@item.ClassID">@item.ClassName</option>
+                                                        }
+                                                        else
+                                                        {
+                                                            <option value="@item.ClassID">@item.ClassName</option>
+                                                        }
+                                                    }
+                                                </select>
+                                                <label class="form-label">Class</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group form-float ">
+                                            <div class="form-line">
+                                                <select required="" class="form-control" id="SectionID" name="SectionID">
+                                                    @foreach (var item in (List<OSS.Models.tblSection>)ViewBag.SectionList)
+                                                    {
+                                                        if (item.SectionID == Model.SectionID)
+                                                        {
+                                                            <option selected="selected" value="@item.SectionID">@item.SectionName</option>
+                                                        }
+                                                        else
+                                                        {
+                                                            <option value="@item.SectionID">@item.SectionName</option>
+                                                        }
+                                                    }
+                                                </select>
+                                                <label class="form-label">School</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group form-float  ">
+                                            <div class="form-line">
+                                                @Html.TextBoxFor(model => model.PostDate, new { @class = "form-control datepicker", required = "" })
+                                                <label class="form-label">Post Date</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row body clearfix">
+                                    <h2>Fee Details</h2>
+                                    <br />
+                                    <br />
+                                    <div class="col-sm-12">
+                                        <table id="myTable" class=" table order-list">
+                                            <thead>
+                                                <tr>
+                                                    <td>Fee Type</td>
+                                                    <td>Fee Amount</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+
+                                                @foreach (var item in Model.tblDefineFeesDtl)
+                                                {
+                                                    var typeId = "type" + counter;
+                                                    var amountId = "amount" + counter;
+                                                    var dataId = "data" + counter;
+                                                    <tr>
+                                                        <td class="col-sm-4">
+                                                            <input type="text" name="@typeId" id="@typeId" value="@item.tblFeesType.FeesType" placeholder="Search Fees Types" class="typeahead form-control" />
+                                                        </td>
+                                                        <td class="col-sm-4">
+                                                            <input type="text" id="@amountId" value="@item.tblFeesType.FeesAmount" readonly name="@amountId" class="form-control" />
+                                                        </td>
+                                                        <td>
+                                                            @{ 
+                                                                var data = item.FeesTypeID + "," + item.tblFeesType.FeesAmount + "," + item.tblFeesType.FeesType;
+                                                            }
+                                                            <input id="@dataId" type="hidden" value="@data" class="form-control" name="@dataId" />
+                                                        </td>
+                                                        <td class="col-sm-4">
+                                                            @{ var btnId = "btn-" + counter;}
+                                                            <input id="@btnId" type="button" class="ibtnDel btn btn-md btn-danger " value="Delete Fees">
+                                                        </td>
+                                                    </tr>
+                                                    counter++;
+                                                }
+
+                                            </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <td colspan="5" style="text-align: left;">
+                                                        <input type="button" class="btn btn-lg btn-block " id="addrow" value="Add More Fees" />
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                </div>
+                                <hr />
+                                <div class="row body clearfix">
+                                    <div class="col-sm-8"></div>
+                                    <div class="col-sm-4">
+                                        <h2>Total Fees : <label id="totalFees">@Model.TotalFees</label></h2>
+                                        <input type="hidden" name="totalFee" id="totalFee" />
+                                        <input type="hidden" name="feedata" id="feedata" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-offset-2 col-md-10">
+                                        <button id="btnsubmit" type="submit" class="btn btn-danger btn-sm waves-effect">
+                                            <i class="material-icons">save</i>
+                                            <span>Save</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<script>
+    var totalFees = @Model.TotalFees;
+    function calculateTotalFees() {
+        var fees = 0;
+        $('#myTable input[id*="amount"]').each(function (e, i) {
+            fees += parseInt($(i).val());
+        });
+        $('#totalFees').empty();
+        $('#totalFees').text(fees);
+        $('#totalFee').val(fees);
+        totalFees = fees;
+    };
+    $(document).ready(function () {
+        var myArray = [];
+         @foreach (var d in feeTypes)
+        {
+            @:myArray.push({ feeType: "@d.FeesType", feeAmount: "@d.FeesAmount", Id: "@d.FeesTypeID" });
+        }
+        items = [];
+        map = {};
+        $.each(myArray, function (i, item) {
+            var id = item.Id;
+            var name = item.feeType;
+            var amount = item.feeAmount;
+            map[name] = {
+                id: id,
+                name: name,
+                amount: amount
+            };
+            items.push(name);
+        });
+        $('#myTable input[id*="type"]').each(function (e, i) {
+            var id = $(i).attr('id');
+            $('#' + id).typeahead({
+                hint: true,
+                highlight: true,
+                minLength: 1,
+                source: items,
+                updater: function (item) {
+                    $('#amount' + e).val(map[item].amount);
+                    totalFees += parseInt(map[item].amount);
+                    calculateTotalFees();
+                    $('#data' + e).val(map[item].id + ',' + map[item].amount + ',' + map[item].name);
+                    var feeDetailsArray = [];
+                    var rows = $("#myTable tbody tr");
+                    for (var i = 0; i < rows.length; i++) {
+                        var data = rows.find('input[id=data' + i + ']').val();
+                        feeDetailsArray.push(data);
+                    }
+                    $('#feedata').val(feeDetailsArray.join('|'));
+                    return item;
+                }
+            });
+        });
+
+
+        var counter = $('#myTable tbody tr').length;
+        $("#addrow").on("click", function () {
+            var newRow = $("<tr>");
+            var cols = "";
+            cols += '<td><input id="id' + counter + '" placeholder="Search Fees Types" class=" typeahead form-control" name="type' + counter + '" type="text" autocomplete="off"></td>';
+            cols += '<td><input id="amount' + counter + '" type="text" class="form-control" readonly name="amount' + counter + '"/></td>';
+            cols += '<td><input id="data' + counter + '" type="hidden" class="form-control" name="data' + counter + '"/></td>';
+            cols += '<td><input id="btn-' + counter + '" type="button" class="ibtnDel btn btn-md btn-danger "  value="Delete Fees"></td></tr>';
+
+            newRow.append(cols);
+            $("table.order-list").append(newRow);
+            $("#id" + counter).typeahead({
+                hint: true,
+                highlight: true,
+                minLength: 1,
+                source: items,
+                updater: function (item) {
+                    $('#amount' + counter).val(map[item].amount);
+                    totalFees += parseInt(map[item].amount);
+                    calculateTotalFees();
+                    $('#data' + counter).val(map[item].id + ',' + map[item].amount + ',' + map[item].name);
+                    var feeDetailsArray = [];
+                    var rows = $("#myTable tbody tr");
+                    for (var i = 0; i <= rows.length; i++) {
+                        var data = $(rows[i]).find('input[id*="data"]').val();
+                        if (data != undefined)
+                            feeDetailsArray.push(data);
+                    }
+                    $('#feedata').val(feeDetailsArray.join('|'));
+                    counter++;
+                    return item;
+                }
+            });
+        });
+        $("table.order-list").on("click", ".ibtnDel", function (event) {
+            var rowCountToDelete = parseInt(event.currentTarget.id.split('-')[1]);
+            var amountt = parseInt($("#amount" + rowCountToDelete).val());
+            totalFees -= parseInt(amountt);
+            $('#totalFees').empty();
+            $('#totalFees').text(totalFees);
+            $('#' + event.currentTarget.id).parent().parent().remove();
+            var feeDetailsArray = [];
+            var rows = $("#myTable tbody tr");
+            for (var i = 0; i <= rows.length; i++) {
+                var data = $(rows[i]).find('input[id*="data"]').val();
+                if (data != undefined)
+                    feeDetailsArray.push(data);
+            }
+            $('#feedata').val(feeDetailsArray.join('|'));
+            calculateTotalFees();
+        });
+    });
+    function dropdownfill(id,bindid)
+    {
+        var name = id;
+        var id = "#" + id;
+        bindid = "#" + bindid;
+        var selectedId = $(id).val();
+        if (selectedId != "") {
+            $.ajax({
+                url: '@Url.Action("fill_dropdown", "Registration")',
+                type: "POST",
+                data: {
+                    "id": selectedId,
+                    "name": name
+                },
+                success: function (result) {
+                    $(bindid).html('');
+                    $(bindid).append($('<option>Select</option>'));
+                    $.each(result, function (id, option) {
+                        $(bindid).append($('<option></option>').val(option.id).html(option.name));
+                    });
+                },
+                error: function (result) {
+                    alert("Error");
+                }
+            });
+        } else {
+        }
+    }
+</script>
