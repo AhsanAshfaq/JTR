@@ -1,4 +1,6 @@
-﻿using OSS.Models;
+﻿using Newtonsoft.Json;
+using OSS.Models;
+using OSS.Models.viewmodel;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -15,22 +17,24 @@ namespace OSS.Controllers
         // GET: tblGenerateFeesMsts
         public ActionResult Index()
         {
-            var result = new List<object>();
-            result.Add(new
+            var result = new List<GenerateFeesViewModel>
             {
-                AdmissionId = 0,
-                GRNo = "1",
-                StudentName = "1",
-                Class = "1",
-                Section = "1",
-                FeeType = "1",
-                FeeAmount = "1",
-                Discount = "1",
-                DiscountAmount = "1",
-                EditedDiscount = "1",
-                NetFees = "1",
-            });
-            return View();
+                new GenerateFeesViewModel
+                {
+                    AdmissionId = 0,
+                    GRNo = "1",
+                    ClassId = 1,
+                    Discount = 1,
+                    DiscountAmount = 1,
+                    EditedDiscount = 1,
+                    FeeAmount = 1,
+                    FeeTypeId = 1,
+                    NetFees = 1,
+                    SectionId = 1,
+                    StudentName = "Test"
+                }
+            };
+            return View(result);
         }
 
         // GET: tblGenerateFeesMsts/Details/5
@@ -50,61 +54,71 @@ namespace OSS.Controllers
 
         public ActionResult GetDefaulters(int stageId, int classId, int sectionId, string chargeFeeList, string feeMonth, string postDate) 
         {
-            var result = new List<object>();
-            result.Add(new {
-                AdmissionId = 0,
-                GRNo = "1",
-                StudentName = "1",
-                Class = "1",
-                Section = "1",
-                FeeType = "1",
-                FeeAmount = "1",
-                Discount = "1",
-                DiscountAmount = "1",
-                EditedDiscount = "1",
-                NetFees = "1",
-            });
-            return Json(result, JsonRequestBehavior.AllowGet);
+            var result = new List<GenerateFeesViewModel>
+            {
+                new GenerateFeesViewModel
+                {
+                    AdmissionId = 0,
+                    GRNo = "1",
+                    ClassId = 1,
+                    Discount = 1,
+                    DiscountAmount = 1,
+                    EditedDiscount = 1,
+                    FeeAmount = 1,
+                    FeeTypeId = 1,
+                    NetFees = 1,
+                    SectionId = 1,
+                    StudentName = "Test"
+                }
+            };
+            var json = JsonConvert.SerializeObject(result);
+            return new ContentResult { Content = json, ContentType = "application/json" };
         }
 
         public ActionResult Genereate(int stageId, int classId, int sectionId, string chargeFeeList, string feeMonth, string postDate)
         {
-            var result = new List<object>();
-            result.Add(new
+            var result = new List<GenerateFeesViewModel>
             {
-                AdmissionId = 0,
-                GRNo = "1",
-                StudentName = "1",
-                Class = "1",
-                Section = "1",
-                FeeType = "1",
-                FeeAmount = "1",
-                Discount = "1",
-                DiscountAmount = "1",
-                EditedDiscount = "1",
-                NetFees = "1",
-            });
-            return Json(result, JsonRequestBehavior.AllowGet);
+                new GenerateFeesViewModel
+                {
+                    AdmissionId = 0,
+                    GRNo = "1",
+                    ClassId = 1,
+                    Discount = 1,
+                    DiscountAmount = 1,
+                    EditedDiscount = 1,
+                    FeeAmount = 1,
+                    FeeTypeId = 1,
+                    NetFees = 1,
+                    SectionId = 1,
+                    StudentName = "Test"
+                }
+            };
+            var json = JsonConvert.SerializeObject(result);
+            return new ContentResult { Content = json, ContentType = "application/json" };
         }
 
         public ActionResult GenerateFixedFees(int stageId, int classId, int sectionId, string chargeFeeList, string feeMonth, string postDate)
         {
-            var result = new List<object>();
-            result.Add(new
+            var result = new List<GenerateFeesViewModel>
             {
-                AdmissionId = 0,
-                GRNo = "1",
-                StudentName = "1",
-                Class = "1",
-                Section = "1",
-                FeeType = "1",
-                FeeAmount = "1",
-                Discount = "1",
-                DiscountAmount = "1",
-                EditedDiscount = "1",
-                NetFees = "1",
-            });
-            return Json(result, JsonRequestBehavior.AllowGet);
+                new GenerateFeesViewModel
+                {
+                    AdmissionId = 0,
+                    GRNo = "1",
+                    ClassId = 1,
+                    Discount = 1,
+                    DiscountAmount = 1,
+                    EditedDiscount = 1,
+                    FeeAmount = 1,
+                    FeeTypeId = 1,
+                    NetFees = 1,
+                    SectionId = 1,
+                    StudentName = "Test"
+                }
+            };
+            var json = JsonConvert.SerializeObject(result);
+            return new ContentResult { Content = json, ContentType = "application/json" };
         }
 
         // GET: tblGenerateFeesMsts/Create
