@@ -21,7 +21,7 @@ namespace OSS.Models
 
         //  public static int _schollid = Convert.ToInt32(System.Web.HttpContext.Current.Session["schollid"]);
        
-        public static int ActiveSessionID = 1;
+        public static int ActiveSessionID = 16;
         public static int _schollid = 1;
         public static bool InEnglish = true;
         //public static string _username =(System.Web.HttpContext.Current.Session["name"]).ToString();
@@ -30,9 +30,39 @@ namespace OSS.Models
         //public static int _RoleID = Convert.ToInt32(System.Web.HttpContext.Current.Session["roleid"]);
         public static int _RoleID = 1;
 
+        //public static object BindStage()
+        //{
+        //    using (OssEntities cntx = new OssEntities())
+        //    {
+        //        var obj = (from q in cntx.tblStage
+        //                   where q.IsActive == true && q.IsDelete == false
+        //                       && q.SchoolID == portalutilities._schollid
+        //                   select new { q.StageID, q.StageName }).ToList();
+
+        //        return obj;
+        //        //if (obj != null)
+        //        //{
+        //        //    cmb.DataSource = obj;
+        //        //    cmb.DisplayMember = "StageName";
+        //        //    cmb.ValueMember = "StageID";
+        //        //}
+
+        //        //cmb.AutoCompleteSource = AutoCompleteSource.CustomSource;
+        //        //cmb.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+        //        //AutoCompleteStringCollection data = new AutoCompleteStringCollection();
+
+        //        //for (int i = 0; i <= obj.Count - 1; i++)
+        //        //{
+        //        //    data.Add(obj[i].StageName);
+        //        //}
+
+        //        //cmb.AutoCompleteCustomSource = data;
+        //    }
+        //}
+
         #region Fee Module
 
-        public static string MonthYearFomrat = "MMM-yyyy";
+        public static string MonthYearFomrat = "MMM-yy";
 
         public struct DiscountType
         {
