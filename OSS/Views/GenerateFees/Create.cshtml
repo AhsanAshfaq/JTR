@@ -218,10 +218,11 @@
                     "feeMonth": feeMonth,
                     "postDate": postDate
                 },
-                success: function (result) {
+            success: function (result) {
+                console.log(result);
                     $("#table tbody").html('');
                     $.each(result, function (id, option) {
-                        $('#table tbody').append('<tr><td><input class="checkbox" style="position: inherit;opacity: 1;" type="checkbox" name="' + option.AdmissionId + '" id="' + option.AdmissionId + '" /></td><td>' + option.GRNo + '</td><td>' + option.StudentName + '</td><td>' + option.Class + '</td><td>' + option.Section + '</td><td>' + option.FeeType + '</td><td>' + option.FeeAmount + '</td><td>' + option.Discount + '</td><td>' + option.DiscountAmount + '</td><td>' + option.EditedDiscount + '</td><td>' + option.NetFees + '</td></tr>');
+                        $('#table tbody').append('<tr><td><input class="checkbox" style="position: inherit;opacity: 1;" type="checkbox" name="' + option.AdmissionId + '" id="' + option.AdmissionId + '" /></td><td>' + option.GRNo + '</td><td>' + option.StudentName + '</td><td>' + option.ClassId + '</td><td>' + option.SectionId + '</td><td>' + option.FeeTypeId + '</td><td>' + option.FeeAmount + '</td><td>' + option.Discount + '</td><td>' + option.DiscountAmount + '</td><td>' + option.EditedDiscount + '</td><td>' + option.NetFees + '</td></tr>');
                     });
                 },
                 error: function (result) {
