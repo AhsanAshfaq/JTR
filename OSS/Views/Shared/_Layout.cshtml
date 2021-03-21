@@ -35,8 +35,32 @@
     <link href="https://cdn.rawgit.com/harvesthq/chosen/gh-pages/chosen.min.css" rel="stylesheet" />
 
 </head>
+<style>
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        background: rgba( 255, 255, 255, .8 ) url('http://i.stack.imgur.com/FhHRx.gif') 50% 50% no-repeat;
+    }
+
+    /* When the body has the loading class, we turn
+   the scrollbar off with overflow:hidden */
+    body.loading .modal {
+        overflow: hidden;
+    }
+
+    /* Anytime the body has the loading class, our
+   modal element will be visible */
+    body.loading .modal {
+        display: block;
+    }
+</style>
 <body class="theme-red">
-   
+
     <!-- Page Loader -->
     <div class="page-loader-wrapper">
         <div class="loader">
@@ -304,7 +328,7 @@
             <div class="menu">
                 <ul class="list">
                     <li class="active header">MAIN NAVIGATION</li>
-                    
+
                     <li>
                         <a href="javascript:void(0);" class="menu-toggle waves-effect waves-block">
                             <i class="material-icons">assignment</i>
@@ -313,7 +337,7 @@
                         <ul class="ml-menu" style="display: none;">
                             <li>
                                 @Html.ActionLink("Users", "Index", "Users")
-                                    
+
                             </li>
                             <li>
                                 @Html.ActionLink("Roles", "Index", "Roles")
@@ -329,7 +353,7 @@
                             <li>
                                 <a href="@Url.Action("Index", "Registration")" class=" waves-effect waves-block">Registration</a>
                             </li>
-                           
+
                         </ul>
                     </li>
                     <li>
@@ -563,7 +587,7 @@
         </footer>
     </div>
 
-   
+
     <!-- Bootstrap Core Js -->
     <script src="~/theme/plugins/bootstrap/js/bootstrap.js"></script>
     <!-- Select Plugin Js -->
@@ -588,15 +612,20 @@
     <script src="~/theme/js/pages/forms/basic-form-elements.js"></script>
     <!-- Demo Js -->
     <script src="~/theme/js/demo.js"></script>
-    
+
     <div id="snackbar">Some text some message..</div>
     <script>
-        
+        $body = $("body");
+
+        $(document).on({
+            ajaxStart: function () { $body.addClass("loading"); },
+            ajaxStop: function () { $body.removeClass("loading"); }
+        });
         function userAuth()
         {
             if ('@Session["employee"]' == null || '@Session["employee"]' == '')
             {
-                
+
                 window.location.href = '@Url.Action("Login", "Login")';
                 return false;
             }
@@ -637,5 +666,6 @@
 
        // console.log("URL :"+url + " USerID : "+ userid + " RoleID: " + roleid);
     </script>
+    <div class="modal"><!-- Place at bottom of page --></div>
 </body>
 </html>

@@ -4,6 +4,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     var studentList = (List<OSS.Models.viewmodel.FeesReceiveStudentViewModel>)ViewBag.StudentList;
     var studentId = int.Parse(ViewBag.StudentId.ToString());
+    var feeIdsList = Model.FeesDetails.Select(x => x.GenerateFeesId).ToList();
 }
 @if (studentId > 0)
 {
@@ -26,13 +27,13 @@
                                                     <select id="studentList" class="form-control" onchange="getStudentDetails()">
                                                         @foreach (var item in studentList)
                                                         {
-                                                            if (item.StudentId == studentId)
+                                                            if (item.AdmissionId == studentId)
                                                             {
-                                                                <option selected="selected" value="@item.StudentId">@item.StudentName</option>
+                                                                <option selected="selected" value="@item.AdmissionId">@item.StudentName</option>
                                                             }
                                                             else
                                                             {
-                                                                <option value="@item.StudentId">@item.StudentName</option>
+                                                                <option value="@item.AdmissionId">@item.StudentName</option>
                                                             }
                                                         }
                                                     </select>
@@ -83,13 +84,20 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <input type="hidden" name="postDate" id="postDate" value="@Model.PostDate" />
+                                        <input type="hidden" name="sectionId" id="sectionId" value="@Model.SectionId" />
+                                        <input type="hidden" name="classId" id="classId" value="@Model.ClassId" />
+                                        <input type="hidden" name="stageId" id="stageId" value="@Model.StageId" />
+                                        <input type="hidden" name="name" id="name" value="@Model.StudentName" />
+                                        <input type="hidden" name="fname" id="fname" value="@Model.FatherName" />
+                                        <input type="hidden" name="selectedFees" id="selectedFees" value="@string.Join(",",feeIdsList)" />
                                     </div>
                                     <div class="row body clearfix">
                                         <div class="col-sm-12">
                                             <table id="table" class="table table-bordered table-striped table-hover js-basic-example dataTable">
                                                 <thead>
                                                     <tr>
-                                                        <th></th>
+                                                        <th><input checked="checked" class="checkbox" style="position: inherit;opacity: 1;" type="checkbox" id="0" onchange="selectAllBoxes(0)" /></th>
                                                         <th>Fees Month</th>
                                                         <th>Fees Type</th>
                                                         <th>Fees Amount</th>
@@ -105,7 +113,7 @@
                                                     {
                                                         <tr>
                                                             <td>
-                                                                <input style="position: inherit;opacity: 1;" type="checkbox" id="chkId-@item.GenerateFeesId" name="chkName-@item.GenerateFeesId" />
+                                                                <input checked="checked" onchange="updateSelectedFees('@item.GenerateFeesId')"  style="position: inherit;opacity: 1;" type="checkbox" id="@item.GenerateFeesId" name="@item.GenerateFeesId" />
                                                             </td>
                                                             <td>
                                                                 @item.FeesMonth
@@ -154,7 +162,7 @@ else
                                                     <select id="studentList" class="form-control" onchange="getStudentDetails()">
                                                         @foreach (var item in studentList)
                                                         {
-                                                            <option value="@item.StudentId">@item.StudentName</option>
+                                                            <option value="@item.AdmissionId">@item.StudentName</option>
                                                         }
                                                     </select>
                                                     <label class="form-label">Students : </label>
@@ -204,35 +212,20 @@ else
                                                 </div>
                                             </div>
                                         </div>
+                                        <input type="hidden" name="postDate" id="postDate" value="@Model.PostDate" />
+                                        <input type="hidden" name="sectionId" id="sectionId" value="@Model.SectionId" />
+                                        <input type="hidden" name="classId" id="classId" value="@Model.ClassId" />
+                                        <input type="hidden" name="stageId" id="stageId" value="@Model.StageId" />
+                                        <input type="hidden" name="name" id="name" value="@Model.StudentName" />
+                                        <input type="hidden" name="fname" id="fname" value="@Model.FatherName" />
+                                        <input type="hidden" name="selectedFees" id="selectedFees" />
                                     </div>
-                                    @*<div class="row body clearfix">
-                                            <div class="col-sm-6">
-                                                <button type="button" class="btn btn-info btn-sm waves-effect" onclick="generateFees('defaulter')">Defaulters</button>
-                                                <button type="button" class="btn btn-info btn-sm waves-effect" onclick="generateFees('generate')">Generate</button>
-                                                <button type="button" class="btn btn-info btn-sm waves-effect">Search Students</button>
-                                                <button type="button" class="btn btn-info btn-sm waves-effect" onclick="generateFees('fixed')">Generate Fixed Fees</button>
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <button type="button" class="btn btn-info btn-sm waves-effect">New</button>
-                                                <button id="btnsubmit" type="submit" class="btn btn-danger btn-sm waves-effect">Save</button>
-                                                <button type="button" class="btn btn-info btn-sm waves-effect">Update</button>
-                                                <button type="button" class="btn btn-danger btn-sm waves-effect">Delete</button>
-
-                                            </div>
-                                            <input type="hidden" id="selectedStudentsId" name="selectedStudentsId" />
-                                            <input type="hidden" id="stage" name="stage" />
-                                            <input type="hidden" id="class" name="class" />
-                                            <input type="hidden" id="section" name="section" />
-                                            <input type="hidden" id="postDatee" name="postDatee" />
-                                            <input type="hidden" id="chargeFees" name="chargeFees" />
-                                            <input type="hidden" id="feesMonth" name="feesMonth" />
-                                        </div>*@
                                     <div class="row body clearfix">
                                         <div class="col-sm-12">
                                             <table id="table" class="table table-bordered table-striped table-hover js-basic-example dataTable">
                                                 <thead>
                                                     <tr>
-                                                        <th></th>
+                                                        <th><input class="checkbox" style="position: inherit;opacity: 1;" type="checkbox" id="0" onchange="selectAllBoxes(0)" /></th>
                                                         <th>Fees Month</th>
                                                         <th>Fees Type</th>
                                                         <th>Fees Amount</th>
@@ -260,30 +253,80 @@ else
 }
 
 <script>
+    function selectAllBoxes() {
+        var TRs = $("#table tbody tr");
+        var ids = '';
+        if (!$('#0').is(":checked")) {
+            $.each(TRs, function (id, tr) {
+                $(tr).find('input').prop('checked', false);
+            });
+            $('#selectedFees').val('');
+        } else {
+            $.each(TRs, function (id, tr) {
+                $(tr).find('input').prop('checked', true);
+                if (ids == '')
+                    ids = $(tr).find('input').attr('id');
+                else
+                    ids += ',' + $(tr).find('input').attr('id');
+            });
+            $('#selectedFees').val(ids);
+        }
+    }
+    function updateSelectedFees(id) {
+        var ids = $('#selectedFees').val();
+        if ($('#' + id).is(":checked")) {
+            if (id > 0) {
+                if (ids == '')
+                    ids = id;
+                else
+                    ids += ',' + id;
+            }
+            $('#selectedFees').val(ids);
+        }
+        else {
+            var updatedList = [];
+            $.each(ids.split(','), function (Stid, optionId) {
+                if (optionId != id)
+                    updatedList.push(optionId);
+            });
+            $('#selectedFees').val(updatedList);
+        }
+    }
     function getStudentDetails()
     {
         var selectedStudentId = $('#studentList').find(":selected").val();
-
         $.ajax({
-                url: '@Url.Action("GetStudentDetails", "FeesReceive")',
-                type: "GET",
-                data: {
-                    "studentId": selectedStudentId
-                },
-                success: function (result) {
-                    $(bindid).html('');
-                    $(bindid).append($('<option value="0">Select All</option>'));
-                    $.each(result, function (id, option) {
-                        $(bindid).append($('<option></option>').val(option.id).html(option.name));
-                    });
-                },
-            error: function (result) {
-
+            url: '@Url.Action("GetStudentDetails", "FeesReceive")',
+            type: "GET",
+            data: {
+                "admissionId": selectedStudentId
+            },
+            success: function (result) {
+                if (!result) {
                     $("#table tbody").html('');
-                    $.each(result, function (id, option) {
-                        $('#table tbody').append('<tr><td><input class="checkbox" style="position: inherit;opacity: 1;" type="checkbox" name="' + option.AdmissionId + '" id="' + option.AdmissionId + '" /></td><td>' + option.GRNo + '</td><td>' + option.StudentName + '</td><td>' + option.ClassId + '</td><td>' + option.SectionId + '</td><td>' + option.FeeTypeId + '</td><td>' + option.FeeAmount + '</td><td>' + option.Discount + '</td><td>' + option.DiscountAmount + '</td><td>' + option.EditedDiscount + '</td><td>' + option.NetFees + '</td></tr>');
+                    $('#table tbody').append('<tr><td colspan="11" style="text-align: center;background: gainsboro;">No Records To Display</td></tr>');
+                } else {
+                    setFormFieldsValue(result);
+                    $("#table tbody").html('');
+                    $.each(result.FeesDetails, function (id, option) {
+                        $('#table tbody').append('<tr><td><input class="checkbox" onchange="updateSelectedFees(' + option.GenerateFeesId + ')" style="position: inherit;opacity: 1;" type="checkbox" name="' + option.GenerateFeesId + '" id="' +
+                            option.GenerateFeesId + '" /></td><td>' + option.FeesMonth + '</td><td>' + option.FeesTypeName + '</td><td>' + option.FeesAmount + '</td><td>' + option.DiscountName +
+                            '</td><td>' + option.DiscountAmount + '</td><td>' + option.NetFees + '</td><td>' + option.ReceivedAmount + '</td><td>' + option.AdjustmentAmount + '</td></tr>');
                     });
                 }
-            });
+            },
+            error: function (result) {
+                alter(result);
+                throw result;
+            }
+        });
+    }
+    function setFormFieldsValue(result) {
+        $('#postDate').val(result.PostDate).trigger("focus");
+        $('#sectionName').val(result.SectionName).trigger("focus");
+        $('#className').val(result.ClassName).trigger("focus");
+        $('#stageName').val(result.StageName).trigger("focus");
+        $('#fatherName').val(result.FatherName).trigger("focus");
+        $('.dtp').hide();
     }
 </script>

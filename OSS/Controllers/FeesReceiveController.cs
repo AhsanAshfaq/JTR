@@ -24,7 +24,7 @@ namespace OSS.Controllers
                 PostDate = DateTime.Now.ToString("dd-MMMM-yyyy"),
                 SectionName = "ALIF",
                 TotalAdjAmount = 5000,
-                StudentId = 1
+                AdmissionId = 1
             });
             return View(result);
         }
@@ -56,11 +56,11 @@ namespace OSS.Controllers
             /// TODO : Simple list of all student's id along with the name (1440/0321/0105) we want to show
             return new List<FeesReceiveStudentViewModel> {
             new FeesReceiveStudentViewModel{
-                StudentId = 1,
+                AdmissionId = 1,
                 StudentName = "1440/0321/0105"
                 },
             new FeesReceiveStudentViewModel{
-                StudentId = 2,
+                AdmissionId = 2,
                 StudentName = "1440/0321/0106"
                 }
             };
@@ -82,14 +82,14 @@ namespace OSS.Controllers
             }
         }
 
-        public ActionResult GetStudentDetails(int studentId)
+        public ActionResult GetStudentDetails(int admissionId)
         {
-            FeesReceiveCreateViewModel result = GetStudentDetailInformation(studentId);
+            FeesReceiveCreateViewModel result = GetStudentDetailInformation(admissionId);
             var json = JsonConvert.SerializeObject(result);
             return new ContentResult { Content = json, ContentType = "application/json" };
         }
 
-        private static FeesReceiveCreateViewModel GetStudentDetailInformation(int studentId)
+        private static FeesReceiveCreateViewModel GetStudentDetailInformation(int admissionId)
         {
             var feesListForStudent = new List<FeesReceiveGridViewModel> {
             new FeesReceiveGridViewModel{
@@ -104,14 +104,31 @@ namespace OSS.Controllers
                     DiscountTableId = 1,
                     FeesTypeId = 1,
                     GenerateFeesId = 1,
-            } };
+            },
+            new FeesReceiveGridViewModel{
+                    FeesMonth = "Nov-2020",
+                    FeesTypeName = "Monthly Fees",
+                    FeesAmount = 1000,
+                    DiscountName = "Disc 5000",
+                    DiscountAmount = 5000,
+                    NetFees = 5000,
+                    ReceivedAmount = 0,
+                    AdjustmentAmount = 2500,
+                    DiscountTableId = 1,
+                    FeesTypeId = 1,
+                    GenerateFeesId = 2,
+            }
+
+
+
+            };
 
             var result = new FeesReceiveCreateViewModel
             {
                 PostDate = DateTime.Now.ToString("dd-MMMM-yyyy"),
                 SectionId = 1,
                 StageId = 1,
-                StudentId = studentId,
+                AdmissionId = admissionId,
                 StageName = "Dars-e-Nizami",
                 ClassName = "Owla",
                 SectionName = "SAALIS",

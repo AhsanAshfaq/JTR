@@ -8,14 +8,14 @@ namespace OSS.Models.viewmodel
         public string FeesRecNo { get; set; }
         public int FeesRecId { get; set; }
         public string StudentName { get; set; }
-        public int StudentId { get; set; }
+        public int AdmissionId { get; set; }
         public string ClassName { get; set; }
         public string SectionName { get; set; }
         public int TotalAdjAmount { get; set; }
         public string PostDate { get; set; }
     }
     public class FeesReceiveCreateViewModel {
-        public int StudentId { get; set; }
+        public int AdmissionId { get; set; }
         public string PostDate { get; set; }
         public int ClassId { get; set; }
         public int StageId { get; set; }
@@ -30,7 +30,7 @@ namespace OSS.Models.viewmodel
 
     public class FeesReceiveStudentViewModel 
     {
-        public int StudentId { get; set; }
+        public int AdmissionId { get; set; }
         public string StudentName { get; set; }
     }
 

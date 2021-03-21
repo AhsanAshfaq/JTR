@@ -108,10 +108,8 @@
                                         <button type="button" class="btn btn-info btn-sm waves-effect" onclick="generateFees('fixed')">Generate Fixed Fees</button>
                                     </div>
                                     <div class="col-sm-6">
-                                        <button type="button" class="btn btn-info btn-sm waves-effect">New</button>
+                                        <a href="/generatefees/Create"><button type="button" id="clearBtn" class="btn btn-info btn-sm waves-effect">New</button></a>
                                         <button id="btnsubmit" type="submit" class="btn btn-danger btn-sm waves-effect">Save</button>
-                                        <button type="button" class="btn btn-info btn-sm waves-effect">Update</button>
-                                        <button type="button" class="btn btn-danger btn-sm waves-effect">Delete</button>
 
                                     </div>
                                     <input type="hidden" id="selectedStudentsId" name="selectedStudentsId" />
@@ -157,6 +155,7 @@
 <script>
 
     $(document).ready(function () {
+        
         $(".chosen-select").chosen({
             no_results_text: "Oops, nothing found!"
         });
@@ -208,8 +207,12 @@
         var classId = $('#ClassID').val();
         var sectionId = $('#SectionID').val();
         var feeMonth = $('#feeMonth').val();
-        var chargeFeeList = $(".chosen-select").val().join(',');
+        var chargeFeeList = $(".chosen-select").val();
         var postDate = $('#postDate').val();
+        if (!stageId || !classId || !sectionId || !feeMonth || postDate == '' || $(".chosen-select").val() == null)
+            alert('Select all fields in order to proceed.');
+
+        chargeFeeList = chargeFeeList.join(',');
         var url = '';
         switch (type) {
             case 'generate':
