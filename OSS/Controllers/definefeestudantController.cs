@@ -18,6 +18,7 @@ namespace OSS.Controllers
         public ActionResult Index()
         {
             var tbldefinefeesstudentmst = db.tblDefineFeesStudentMst.Include(t => t.tblClassMst).Include(t => t.tblSection).Include(t => t.tblStage);
+            ViewBag.FeeTypeList = db.tblFeesType.ToList();
             return View(tbldefinefeesstudentmst.Where(x => x.IsDelete == false).OrderByDescending(x => x.PostDate).Take(10).ToList());
         }
 

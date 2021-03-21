@@ -594,13 +594,8 @@ namespace OSS.Controllers
             var ChargeFees = form["chargeFees"];
             var feeMonth = form["feesMonth"];
             var selectedStudents = form["selectedStudentsId"];
-            if (ModelState.IsValid)
-            {
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-
-            return View();
+            db.SaveChanges();
+            return RedirectToAction("Index");
         }
 
         // GET: tblGenerateFeesMsts/Edit/5

@@ -3,7 +3,7 @@
 @{
     ViewBag.Title = "Define Fee Student";
     var db = new OSS.Models.ApplicationDbContext();
-
+    var feeTypeList = (List<OSS.Models.tblFeesType>)ViewBag.FeeTypeList;
 }
 
 <section class="content">
@@ -64,7 +64,7 @@
                                                 @Html.DisplayFor(modelItem => item.tblSection.SectionName)
                                             </td>
                                             <td>
-                                                @Html.DisplayFor(modelItem => db.Database.SqlQuery<OSS.Models.tblFeesType>("select * from tblFeesType where feesTypeID =" + @item.FeesTypeID).FirstOrDefault().FeesType)
+                                                @Html.DisplayFor(modelItem => feeTypeList.FirstOrDefault(x=>x.FeesTypeID == item.FeesTypeID).FeesType)
                                             </td>
 
                                             @if (@TempData["restore"] == "restore")
