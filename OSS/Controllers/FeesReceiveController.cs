@@ -68,11 +68,19 @@ namespace OSS.Controllers
 
         // POST: FeesReceive/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(FormCollection form)
         {
             try
             {
                 // TODO: Add insert logic here
+                var stageId = int.Parse(form["stageId"]);
+                var classId = int.Parse(form["classId"]);
+                var sectionId = int.Parse(form["sectionId"]);
+                var postDate = DateTime.Parse(form["postDate"]);
+                var selectedFeesIds = form["selectedFees"];  // These are GenerateFeesId for each fees item selected and its comma separated.
+                var StudentName = form["name"];
+                var FatherName = form["fname"];
+                var selectedAdmissionId = form["selectedAdmissionId"];
 
                 return RedirectToAction("Index");
             }
