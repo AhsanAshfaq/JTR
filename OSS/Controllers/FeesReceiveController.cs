@@ -36,17 +36,17 @@ namespace OSS.Controllers
         }
 
         // GET: FeesReceive/Create
-        public ActionResult Create(int? studentId)
+        public ActionResult Create(int? feesRecId)
         {
             var result = new FeesReceiveCreateViewModel();
             List<FeesReceiveStudentViewModel> studentList = GetStudentsList();
             
             ViewBag.StudentList = studentList;
-            ViewBag.StudentId = studentId ?? 0;
+            ViewBag.StudentId = feesRecId ?? 0;
 
             // If studentId has a value it means it was clicked from index page grid and we need to show the form in edit mode.... If not then normal create form
-            if (studentId.HasValue)
-                result = GetStudentDetailInformation(studentId.Value);
+            if (feesRecId.HasValue)
+                result = GetStudentDetailInformation(feesRecId.Value);
 
             return View(result);
         }
@@ -97,7 +97,7 @@ namespace OSS.Controllers
             return new ContentResult { Content = json, ContentType = "application/json" };
         }
 
-        private static FeesReceiveCreateViewModel GetStudentDetailInformation(int admissionId)
+        private static FeesReceiveCreateViewModel GetStudentDetailInformation(int feesRecId)
         {
             var feesListForStudent = new List<FeesReceiveGridViewModel> {
             new FeesReceiveGridViewModel{
@@ -136,7 +136,7 @@ namespace OSS.Controllers
                 PostDate = DateTime.Now.ToString("dd-MMMM-yyyy"),
                 SectionId = 1,
                 StageId = 1,
-                AdmissionId = admissionId,
+                AdmissionId = feesRecId,
                 StageName = "Dars-e-Nizami",
                 ClassName = "Owla",
                 SectionName = "SAALIS",

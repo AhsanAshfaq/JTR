@@ -66,7 +66,7 @@
                                             @Html.DisplayFor(modelItem => item.PostDate)
                                         </td>
                                         <td>
-                                            <a title="Select Record" href="@Url.Action("create", "feesreceive", new { studentId = item.AdmissionId }) "><i class="material-icons">edit</i>SELECT</a>
+                                            <a title="Select Record" href="@Url.Action("create", "feesreceive", new { feesRecId = item.FeesRecId }) "><i class="material-icons">edit</i>SELECT</a>
                                         </td>
                                     </tr>
                                     }

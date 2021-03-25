@@ -4,7 +4,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     var studentList = (List<OSS.Models.viewmodel.FeesReceiveStudentViewModel>)ViewBag.StudentList;
     var studentId = int.Parse(ViewBag.StudentId.ToString());
-    var feeIdsList = Model.FeesDetails.Select(x => x.GenerateFeesId).ToList();
+    var feeIdsList = Model.FeesDetails != null ? Model.FeesDetails.Select(x => x.GenerateFeesId).ToList() : new List<int>();
 }
 @if (studentId > 0)
 {
@@ -91,6 +91,7 @@
                                         <input type="hidden" name="name" id="name" value="@Model.StudentName" />
                                         <input type="hidden" name="fname" id="fname" value="@Model.FatherName" />
                                         <input type="hidden" name="selectedFees" id="selectedFees" value="@string.Join(",",feeIdsList)" />
+                                        <input type="hidden" name="selectedAdmissionId" id="selectedAdmissionId" value="@studentId"/>
                                     </div>
                                     <div class="row body clearfix">
                                         <div class="col-sm-12">
@@ -219,6 +220,7 @@ else
                                         <input type="hidden" name="name" id="name" value="@Model.StudentName" />
                                         <input type="hidden" name="fname" id="fname" value="@Model.FatherName" />
                                         <input type="hidden" name="selectedFees" id="selectedFees" />
+                                        <input type="hidden" name="selectedAdmissionId" id="selectedAdmissionId" value="@Model.AdmissionId" />
                                     </div>
                                     <div class="row body clearfix">
                                         <div class="col-sm-12">
