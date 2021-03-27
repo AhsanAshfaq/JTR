@@ -21,129 +21,144 @@
                         @using (Html.BeginForm("create", "GenerateFees", FormMethod.Post, new { @id = "generateFeesForm" }))
                         {
                             @Html.AntiForgeryToken()
-                            <div class="form-horizontal">
-                                @Html.ValidationSummary(true)
-                                <div class="row body clearfix">
-                                    <div class="col-sm-3">
-                                        <div class="form-group form-float">
-                                            <div class="form-line">
-                                                <select id="StageID" class="form-control" onchange="dropdownfill($(this).attr('id'), 'ClassID')">
-                                                    <option value="0">Select All</option>
-                                                    @foreach (var item in stageList)
-                                                    {
-                                                        <option value="@item.StageID">@item.StageName</option>
-                                                    }
-                                                </select>
-                                                <label class="form-label">Stage</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-3">
-                                        <div class="form-group form-float">
-                                            <div class="form-line">
-                                                <select required="" class="form-control" id="ClassID" name="ClassID" onchange="dropdownfill($(this).attr('id'), 'SectionID')"></select>
-                                                <label class="form-label">Class</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-3">
-                                        <div class="form-group form-float ">
-                                            <div class="form-line">
-                                                <select required="" class="form-control alerts-border" id="SectionID" name="SectionID"></select>
-                                                <label class="form-label">Section</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-3">
-                                        <div class="form-group form-float  ">
-                                            <div class="form-line">
-                                                <input class="form-control datepicker" id="postDate" name="postDate" />
-                                                <label class="form-label">Post Date</label>
-                                            </div>
+                        <div class="form-horizontal">
+                            @Html.ValidationSummary(true)
+                            <div class="row body clearfix">
+                                <div class="col-sm-3">
+                                    <div class="form-group form-float">
+                                        <div class="form-line">
+                                            <select id="StageID" class="form-control" onchange="dropdownfill($(this).attr('id'), 'ClassID')">
+                                                <option value="0">Select All</option>
+                                                @foreach (var item in stageList)
+                                                {
+                                                    <option value="@item.StageID">@item.StageName</option>
+                                                }
+                                            </select>
+                                            <label class="form-label">Stage</label>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row body clearfix">
-                                    <div class="col-sm-6">
-                                        <div class="form-group form-float  ">
-                                            <div class="form-line">
-                                                <select class="form-control" id="feeMonth" name="feeMonth">
-                                                    <option value="Jan-21">Jan - @year</option>
-                                                    <option value="Feb-21">Feb - @year</option>
-                                                    <option value="Mar-21">Mar - @year</option>
-                                                    <option value="Apr-21">Apr - @year</option>
-                                                    <option value="May-21">May - @year</option>
-                                                    <option value="Jun-21">Jun - @year</option>
-                                                    <option value="Jul-21">Jul - @year</option>
-                                                    <option value="Aug-21">Aug - @year</option>
-                                                    <option value="Sep-21">Sep - @year</option>
-                                                    <option value="Oct-21">Oct - @year</option>
-                                                    <option value="Nov-21">Nov - @year</option>
-                                                    <option value="Dec-21">Dec - @year</option>
-                                                </select>
-                                                <label class="form-label">Fees Month</label>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <div class="form-group form-float  ">
-                                            <div class="form-line">
-                                                <select data-placeholder="Select Charge Fee" style="border: none;" multiple class="form-control chosen-select" name="test">
-                                                    <option value=""></option>
-                                                    @foreach (var item in feeList)
-                                                    {
-                                                        <option value="@item.FeesTypeID">@item.FeesType</option>
-                                                    }
-                                                </select>
-                                            </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group form-float">
+                                        <div class="form-line">
+                                            <select required="" class="form-control" id="ClassID" name="ClassID" onchange="dropdownfill($(this).attr('id'), 'SectionID')"></select>
+                                            <label class="form-label">Class</label>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row body clearfix">
-                                    <div class="col-sm-6">
-                                        <button type="button" class="btn btn-info btn-sm waves-effect" onclick="generateFees('defaulter')">Defaulters</button>
-                                        <button type="button" class="btn btn-info btn-sm waves-effect" onclick="generateFees('generate')">Generate</button>
-                                        <button type="button" class="btn btn-info btn-sm waves-effect">Search Students</button>
-                                        <button type="button" class="btn btn-info btn-sm waves-effect" onclick="generateFees('fixed')">Generate Fixed Fees</button>
+                                <div class="col-sm-3">
+                                    <div class="form-group form-float ">
+                                        <div class="form-line">
+                                            <select required="" class="form-control alerts-border" id="SectionID" name="SectionID"></select>
+                                            <label class="form-label">Section</label>
+                                        </div>
                                     </div>
-                                    <div class="col-sm-6">
-                                        <a href="/generatefees/Create"><button type="button" id="clearBtn" class="btn btn-info btn-sm waves-effect">New</button></a>
-                                        <button id="btnsubmit" type="submit" class="btn btn-danger btn-sm waves-effect">Save</button>
-
-                                    </div>
-                                    <input type="hidden" id="selectedStudentsId" name="selectedStudentsId" />
-                                    <input type="hidden" id="stage" name="stage" />
-                                    <input type="hidden" id="class" name="class" />
-                                    <input type="hidden" id="section" name="section" />
-                                    <input type="hidden" id="postDatee" name="postDatee" />
-                                    <input type="hidden" id="chargeFees" name="chargeFees" />
-                                    <input type="hidden" id="feesMonth" name="feesMonth" />
                                 </div>
-                                <div class="row body clearfix">
-                                    <div class="col-sm-12">
-                                        <table id="table" class="table table-bordered table-striped table-hover js-basic-example dataTable">
-                                            <thead>
-                                                <tr>
-                                                    <th><input class="checkbox" style="position: inherit;opacity: 1;" type="checkbox" name="" id="selectAllChk" /></th>
-                                                    <th>GR.No</th>
-                                                    <th>Student Name</th>
-                                                    <th>Class</th>
-                                                    <th>Section</th>
-                                                    <th>Fee Type</th>
-                                                    <th>Fee Amount</th>
-                                                    <th>Discount</th>
-                                                    <th>Discount Amount</th>
-                                                    <th>Edited Discount</th>
-                                                    <th>Net Fees</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                            </tbody>
-                                        </table>
+                                <div class="col-sm-3">
+                                    <div class="form-group form-float  ">
+                                        <div class="form-line">
+                                            <input class="form-control datepicker" id="postDate" name="postDate" />
+                                            <label class="form-label">Post Date</label>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
+                            <div class="row body clearfix">
+                                <div class="col-sm-6">
+                                    <div class="form-group form-float  ">
+                                        <div class="form-line">
+                                            <select class="form-control" id="feeMonth" name="feeMonth">
+                                                <option value="Jan-21">Jan - @year</option>
+                                                <option value="Feb-21">Feb - @year</option>
+                                                <option value="Mar-21">Mar - @year</option>
+                                                <option value="Apr-21">Apr - @year</option>
+                                                <option value="May-21">May - @year</option>
+                                                <option value="Jun-21">Jun - @year</option>
+                                                <option value="Jul-21">Jul - @year</option>
+                                                <option value="Aug-21">Aug - @year</option>
+                                                <option value="Sep-21">Sep - @year</option>
+                                                <option value="Oct-21">Oct - @year</option>
+                                                <option value="Nov-21">Nov - @year</option>
+                                                <option value="Dec-21">Dec - @year</option>
+                                            </select>
+                                            <label class="form-label">Fees Month</label>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group form-float  ">
+                                        <div class="form-line">
+                                            <select data-placeholder="Select Charge Fee" style="border: none;" multiple class="form-control chosen-select" name="test">
+                                                <option value=""></option>
+                                                @foreach (var item in feeList)
+                                                {
+                                                    <option value="@item.FeesTypeID">@item.FeesType</option>
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row body clearfix">
+                                <div class="col-sm-6">
+                                    <button type="button" class="btn btn-info btn-sm waves-effect" onclick="generateFees('defaulter');">Defaulters</button>
+                                    <button type="button" class="btn btn-info btn-sm waves-effect" onclick="generateFees('generate');">Generate</button>
+                                    <button type="button" class="btn btn-info btn-sm waves-effect" onclick="generateFees('fixed');">Generate Fixed Fees</button>
+                                </div>
+                                <div class="col-sm-6">
+                                    <a href="/generatefees/Create"><button type="button" id="clearBtn" class="btn btn-info btn-sm waves-effect">New</button></a>
+                                    <button id="btnsubmit" type="button" onclick="fillDataBeforeSubmit();" class="btn btn-danger btn-sm waves-effect">Save</button>
+
+                                </div>
+                                <input type="hidden" id="selectedStudentsId" name="selectedStudentsId" />
+                                <input type="hidden" id="stage" name="stage" />
+                                <input type="hidden" id="class" name="class" />
+                                <input type="hidden" id="section" name="section" />
+                                <input type="hidden" id="postDatee" name="postDatee" />
+                                <input type="hidden" id="chargeFees" name="chargeFees" />
+                                <input type="hidden" id="feesMonth" name="feesMonth" />
+                                <input type="hidden" id="totalDiscountAmount" name="totalDiscountAmount" value="0" />
+                                <input type="hidden" id="totalFeesAmount" name="totalFeesAmount" value="0" />
+                                <input type="hidden" id="totalNetFees" name="totalNetFees" value="0" />
+
+                            </div>
+                            <div class="row body clearfix">
+                                <div class="col-sm-4">
+                                    <label>Total Discount : </label> <h5 id="lblTotalDiscount">0.0</h5>
+                                </div>
+                                <div class="col-sm-4">
+                                    <label>Total Fees : </label> <h5 id="lblTotalFees">0.0</h5>
+                                </div>
+                                <div class="col-sm-4">
+                                    <label>Total Net Fees : </label> <h5 id="lblTotalNetFees">0.0</h5>
+                                </div>
+
+                            </div>
+                            <div class="row body clearfix">
+                                <div class="col-sm-12">
+                                    <table id="table" class="table table-bordered table-striped table-hover js-basic-example dataTable">
+                                        <thead>
+                                            <tr>
+                                                <th><input class="checkbox" onchange="selectAllBoxes(0);" style="position: inherit;opacity: 1;" type="checkbox" name="0" id="0" /></th>
+                                                <th>GR.No</th>
+                                                <th>Student Name</th>
+                                                <th>Class</th>
+                                                <th>Section</th>
+                                                <th>Fee Type</th>
+                                                <th>Fee Amount</th>
+                                                <th>Discount</th>
+                                                <th>Discount Amount</th>
+                                                <th>Edited Discount</th>
+                                                <th>Net Fees</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
                         }
                     </div>
                 </div>
@@ -153,55 +168,98 @@
     </div>
 </section>
 <script>
-
     $(document).ready(function () {
-        
         $(".chosen-select").chosen({
             no_results_text: "Oops, nothing found!"
         });
-        $(document).on('click', '#selectAllChk', function (i, ii) {
-            var allTrs = $('#table tbody tr');
-            for (var i = 0; i < allTrs.length; i++) {
-                var currentCheckboxId = $(allTrs[i]).attr('id');
-                var ids = $('#selectedStudentsId').val();
-                if (ids.indexOf(currentCheckboxId) >= 0) {
-                    var arr = ids.split(',').filter(e => e !== currentCheckboxId);
-                    ids = arr.join(',');
-                } else {
-                    if (ids == '')
-                        ids += currentCheckboxId;
-                    else
-                        ids += ',' + currentCheckboxId;
-                }
-            }
-        });
-        $(document).on('click', '.checkbox', function (i, ii) {
-            var clickedCheckboxId = $(i.currentTarget).attr('id');
-            var ids = $('#selectedStudentsId').val();
-            if (ids.indexOf(clickedCheckboxId) >= 0) {
-                var arr = ids.split(',').filter(e => e !== clickedCheckboxId);
-                ids = arr.join(',');
-            } else {
+    });
+    var generateFeesList = [];
+    var generateFeesSubmitData = [];
+    function selectAllBoxes() {
+        var TRs = $("#table tbody tr");
+        var ids = '';
+        if (!$('#0').is(":checked")) {
+            $.each(TRs, function (id, tr) {
+                $(tr).find('input').prop('checked', false);
+            });
+            $('#selectedStudentsId').val('');
+        } else {
+            $.each(TRs, function (id, tr) {
+                $(tr).find('input').prop('checked', true);
                 if (ids == '')
-                    ids += clickedCheckboxId;
+                    ids = $(tr).find('input').attr('id');
                 else
-                    ids += ',' + clickedCheckboxId;
+                    ids += ',' + $(tr).find('input').attr('id');
+            });
+            $('#selectedStudentsId').val(ids);
+        }
+    }
+    function updateSelectedFees(id) {
+        var ids = $('#selectedStudentsId').val();
+        if ($('#' + id).is(":checked")) {
+            if (id > 0) {
+                if (ids == '')
+                    ids = id;
+                else
+                    ids += ',' + id;
             }
             $('#selectedStudentsId').val(ids);
-            var stageId = $('#StageID').val();
-            var classId = $('#ClassID').val();
-            var sectionId = $('#SectionID').val();
-            var feeMonth = $('#feeMonth').val();
-            var chargeFeeList = $(".chosen-select").val().join(',');
-            var postDate = $('#postDate').val();
-            $('#stage').val(stageId);
-            $('#class').val(classId);
-            $('#section').val(sectionId);
-            $('#feesMonth').val(feeMonth);
-            $('#chargeFees').val(chargeFeeList);
-            $('#postDatee').val(postDate);
+        }
+        else {
+            var updatedList = [];
+            $.each(ids.split(','), function (Stid, optionId) {
+                if (optionId != id)
+                    updatedList.push(optionId);
+            });
+            $('#selectedStudentsId').val(updatedList);
+        }
+    }
+    function fillDataBeforeSubmit() {
+        var generateFees = [];
+        var totalEditedDiscount = 0;
+        var TRs = $("#table tbody tr");
+        $.each(TRs, function (id, tr) {
+            if ($(tr).find('input').is(":checked")) {
+                var admissionId = $(tr).find('input').attr('name');
+                var feeType = $(tr).find('td:nth-child(6)').html();
+                totalEditedDiscount += parseInt($(tr).find('td:nth-child(10)').html());
+                $.each(generateFeesList, function (id, option) {
+                    if (option.AdmissionId == parseInt(admissionId) && option.FeeType == feeType) {
+                        generateFees.push(option.AdmissionId + ',' + option.FeeTypeID + ',' + option.DiscountID + ',' +
+                            parseInt($(tr).find('td').last().prev().html()) + ','
+                            + parseInt($(tr).find('td').last().html()));
+                    }
+                });
+            }
         });
-    });
+        generateFeesSubmitData = {
+            generateFeesList: generateFees.join('|'),
+            totalDiscount: totalEditedDiscount,
+            totalFees: parseInt($('#lblTotalFees').html()),
+            totalNetFees: parseInt($('#lblTotalNetFees').html()),
+            stageId : $('#StageID').val(),
+            classId : $('#ClassID').val(),
+            sectionId : $('#SectionID').val(),
+            feeMonth: $('#feeMonth').val(),
+            postDate: $('#postDate').val(),
+            chargeFees: $('.chosen-select').val().join(',')
+        };
+        $.ajax({
+            url: '/generatefees/create',
+            type: "POST",
+            data: generateFeesSubmitData,
+            success: function (result) {
+                debugger;
+                if (result.length == 0) {
+                }
+            },
+            error: function (result) {
+                debugger;
+                console.log(result);
+                alert("Error");
+            }
+        });
+    }
     function generateFees(type) {
         var stageId = $('#StageID').val();
         var classId = $('#ClassID').val();
@@ -227,32 +285,67 @@
                 break;
         }
         $.ajax({
-                url: url,
-                type: "POST",
-                data: {
-                    "stageId": stageId,
-                    "classId": classId,
-                    "sectionId": sectionId,
-                    "chargeFeeList": chargeFeeList,
-                    "feeMonth": feeMonth,
-                    "postDate": postDate
-                },
+            url: url,
+            type: "POST",
+            data: {
+                "stageId": stageId,
+                "classId": classId,
+                "sectionId": sectionId,
+                "chargeFeeList": chargeFeeList,
+                "feeMonth": feeMonth,
+                "postDate": postDate
+            },
             success: function (result) {
+                var totalFees = 0;
+                var totalDiscount = 0;
+                var totalNetFees = 0;
+                generateFeesList = result;
                 if (result.length == 0) {
                     $("#table tbody").html('');
                     $('#table tbody').append('<tr><td colspan="11" style="text-align: center;background: gainsboro;">No Records To Display</td></tr>');
-                } else { 
+                } else {
                     $("#table tbody").html('');
                     $.each(result, function (id, option) {
-                        $('#table tbody').append('<tr><td><input class="checkbox" style="position: inherit;opacity: 1;" type="checkbox" name="' + option.AdmissionId + '" id="' + option.AdmissionId + '" /></td><td>' + option.GRNo + '</td><td>' + option.StudentName + '</td><td>' + option.ClassID + '</td><td>' + option.SectionID + '</td><td>' + option.FeeTypeID + '</td><td>' + option.FeeAmount + '</td><td>' + option.Discount + '</td><td>' + option.DiscountAmount + '</td><td>' + option.EditedDiscount + '</td><td>' + option.NetFees + '</td></tr>');
+                        totalFees += option.FeeAmount;
+                        totalDiscount += option.DiscountAmount;
+                        totalNetFees += option.NetFees;
+                        $('#table tbody').append('<tr><td><input class="checkbox" onchange="updateSelectedFees(' + option.AdmissionId
+                            + ')" style="position: inherit;opacity: 1;" type="checkbox" name="' + option.AdmissionId + '" id="' + option.AdmissionId + '' + option.FeeType.replace(/ +/g, "") +'" /></td><td>' + option.GRNo + '</td><td>' + option.StudentName + '</td><td>' + option.Class + '</td><td>' + option.Section
+                            + '</td><td>' + option.FeeType + '</td><td>' + option.FeeAmount + '</td><td>' + option.Discount + '</td><td>' + option.DiscountAmount
+                            + '</td><td class="editable">' + option.EditedDiscount + '</td><td>' + option.NetFees + '</td></tr>');
                     });
+                    $('#lblTotalDiscount').html(totalDiscount);
+                    $('#lblTotalFees').html(totalFees);
+                    $('#lblTotalNetFees').html(totalNetFees);
+                    bindEditableInputs();
                 }
-                },
-                error: function (result) {
-                    console.log(result);
-                    alert("Error");
-                }
-            });
+            },
+            error: function (result) {
+                console.log(result);
+                alert("Error");
+            }
+        });
+    }
+    function bindEditableInputs() {
+        $('#table').on('click', 'tbody td.editable', function (e) {
+            $(this).attr("contentEditable", "true");
+        });
+        $('#table').on('blur', 'tbody td.editable', function (e) {
+            $(this).attr("contentEditable", "false");
+            var newValue = parseInt($(this).html());
+            var totalFees = parseInt($(this).prev().prev().prev().html());
+            $(this).next().html(totalFees - newValue);
+            calculateNetFees();
+        });
+    }
+    function calculateNetFees() {
+        var totalNetFees = 0;
+        var TRs = $("#table tbody tr");
+        $.each(TRs, function (id, Tr) {
+            var trValue = parseInt($(Tr).find('td').last().html());
+            totalNetFees += trValue;
+        });
+        $('#lblTotalNetFees').html(totalNetFees);
     }
     function dropdownfill(id,bindid)
     {
