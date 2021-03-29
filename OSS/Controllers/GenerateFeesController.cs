@@ -585,19 +585,73 @@ namespace OSS.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(FormCollection form)
+        public ActionResult Create(GenerateFeesCreateModel model)
         {
-            var stageId = int.Parse(form["stage"]);
-            var classId = int.Parse(form["class"]);
-            var sectionId = int.Parse(form["section"]);
-            var postDate = DateTime.Parse(form["postDatee"]);
-            var ChargeFees = form["chargeFees"];
-            var feeMonth = form["feesMonth"];
-            var selectedStudents = form["selectedStudentsId"];
-            // tblGeneratefeesmst,tblgeneratefeesdtl,tblgeneratefeesCFdtl
+            var feesIndvList = GetFeeIndvList(model);
+            var mstId = db.tblGenerateFeesMst.Add(new tblGenerateFeesMst
+            {
+                ClassID = model.classId,
+                CreateBy = portalutilities._username,
+                CreateDate = DateTime.Now,
+                FeesDate = DateTime.Now,
+                IsDelete = false,
+                PostDate = model.postDate,
+                SchoolID = portalutilities._schollid,
+                SectionID = model.sectionId,
+                SessionID = portalutilities.ActiveSessionID,
+                StageID = model.stageId,
+                TotalDiscountAmount = model.totalDiscount,
+                TotalFeesAmount = model.totalFees,
+                TotalNetFees = model.totalNetFees,
+                TotalStudents = feesIndvList.Count,
+            });
+            db.SaveChanges();
+            foreach (var item in feesIndvList)
+            {
+                db.tblGenerateFeesDtl.Add(new tblGenerateFeesDtl
+                {
+                    AdmissionID = item.admissionId,
+                    ClassID = model.classId,
+                    DiscountID = item.discountId,
+                    EditedDiscAmount = item.editedDiscount,
+                    FeesTypeID = item.feesTypeId,
+                    GenFeesMstID = mstId.GenFeesMstID,
+                    NetFees = item.netFees,
+                    SectionID = model.sectionId,
+                    StageID = model.stageId,
+                    Status = portalutilities.FeesStatus.UnPaid,
+                });
+            }
+            foreach (var item in model.chargeFees.Split(','))
+            {
+                var id = int.Parse(item);
+                var currentFeeType = db.tblFeesType.FirstOrDefault(x => x.FeesTypeID == id).FeesType;
+                db.tblGenerateFeesCFDtl.Add(new tblGenerateFeesCFDtl
+                {
+                    ChargeFee = currentFeeType,
+                    GenFeesMstID = mstId.GenFeesMstID,
+                });
+            }
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        private static List<GenerateFeesIndv> GetFeeIndvList(GenerateFeesCreateModel model)
+        {
+            var feesIndvList = new List<GenerateFeesIndv>();
+            foreach (var item in model.generateFeesList.Split('|'))
+            {
+                var itemArray = item.Split(',');
+                feesIndvList.Add(new GenerateFeesIndv
+                {
+                    admissionId = int.Parse(itemArray[0]),
+                    feesTypeId = int.Parse(itemArray[1]),
+                    discountId = int.Parse(itemArray[2]),
+                    editedDiscount = int.Parse(itemArray[3]),
+                    netFees = int.Parse(itemArray[4])
+                });
+            }
+            return feesIndvList;
         }
 
         // GET: tblGenerateFeesMsts/Edit/5
