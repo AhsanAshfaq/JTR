@@ -22,8 +22,10 @@ namespace OSS.Models
         //  public static int _schollid = Convert.ToInt32(System.Web.HttpContext.Current.Session["schollid"]);
        
         public static int ActiveSessionID = 16;
+        public static int AdminUserID = 1;
         public static int _schollid = 1;
-        public static bool InEnglish = true;
+        public static int LoginUserID = 1;
+        public static bool InEnglish = false;
         //public static string _username =(System.Web.HttpContext.Current.Session["name"]).ToString();
         public static string _username = "admin1";
         public static DateTime _GetDate = DateTime.Now;
@@ -62,7 +64,9 @@ namespace OSS.Models
 
         #region Fee Module
 
+        public static string DueDateDiscName = "Due Date Discount";
         public static string MonthYearFomrat = "MMM-yy";
+        public static string DateTimeFormat = "dd-MMM-yyyy";
 
         public struct DiscountType
         {
@@ -76,6 +80,12 @@ namespace OSS.Models
             public static string UnPaid = "UnPaid";
             public static string Partial = "Partial";
             public static string Received = "Received";
+        }
+
+        public struct TransactionTypeFees
+        {
+            public static string FeesReceive = "Fees Receive";
+            public static string GenerateFees = "Generate Fees";
         }
 
         public struct ChargeFee
