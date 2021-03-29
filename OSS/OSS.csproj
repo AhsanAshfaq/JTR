@@ -710,6 +710,7 @@
       <DependentUpon>oss.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\viewmodel\FeesReceiveViewModel.cs" />
+    <Compile Include="Models\viewmodel\GenerateFeesCreateModel.cs" />
     <Compile Include="Models\viewmodel\GenerateFeesViewModel.cs" />
     <Compile Include="Models\viewmodel\tbladmissionviewmodel.cs" />
     <Compile Include="Models\Vu_BankPayment.cs">
