@@ -18,23 +18,24 @@ namespace OSS.Controllers
         // GET: tblGenerateFeesMsts
         public ActionResult Index()
         {
-            var result = new List<GenerateFeesViewModel>
+            var obj = (from q in db.tblGenerateFeesMst.Cast<tblGenerateFeesMst>()
+                       where q.IsDelete == false && q.SchoolID == portalutilities._schollid && q.SessionID == portalutilities.ActiveSessionID
+                       && q.UserID == portalutilities.LoginUserID
+                       orderby q.GenFeesMstID descending
+                       select new { q.GenFeesMstID, q.PostDate }).ToList();
+
+            var result = new List<GenerateFeesViewModel>();
+
+            for (int i = 0; i < obj.Count; i++)
             {
-                new GenerateFeesViewModel
+                /// TODO : This result list will contains the list (Record History Tab Data FROM Fees Receive Screen of Desktop App ) 
+                result.Add(new GenerateFeesViewModel
                 {
-                    AdmissionId = 0,
-                    GRNo = "1",
-                    ClassId = 1,
-                    Discount = 1,
-                    DiscountAmount = 1,
-                    EditedDiscount = 1,
-                    FeeAmount = 1,
-                    FeeTypeId = 1,
-                    NetFees = 1,
-                    SectionId = 1,
-                    StudentName = "Test"
-                }
-            };
+                    GenFeesMstID = obj[i].GenFeesMstID,
+                    PostDate = obj[i].PostDate.Value.ToString(portalutilities.DateTimeFormat)
+                });
+            }
+
             return View(result);
         }
 
@@ -576,7 +577,7 @@ namespace OSS.Controllers
         public ActionResult Create()
         {
             ViewBag.StageList = db.tblStage.ToList();
-            ViewBag.FeeList = db.tblFeesType.Where(o=>o.SchoolID == portalutilities._schollid && o.IsDelete == false && o.IsActive == true).ToList();
+            ViewBag.FeeList = db.tblFeesType.Where(o => o.SchoolID == portalutilities._schollid && o.IsDelete == false && o.IsActive == true).ToList();
             return View();
         }
 
@@ -594,6 +595,7 @@ namespace OSS.Controllers
             var ChargeFees = form["chargeFees"];
             var feeMonth = form["feesMonth"];
             var selectedStudents = form["selectedStudentsId"];
+            // tblGeneratefeesmst,tblgeneratefeesdtl,tblgeneratefeesCFdtl
             db.SaveChanges();
             return RedirectToAction("Index");
         }
