@@ -255,6 +255,7 @@ else
 }
 
 <script>
+    var feesReceiveTableResult = [];
     function selectAllBoxes() {
         var TRs = $("#table tbody tr");
         var ids = '';
@@ -308,6 +309,7 @@ else
                     $("#table tbody").html('');
                     $('#table tbody').append('<tr><td colspan="11" style="text-align: center;background: gainsboro;">No Records To Display</td></tr>');
                 } else {
+                    feesReceiveTableResult = result;
                     setFormFieldsValue(result);
                     $("#table tbody").html('');
                     $.each(result.FeesDetails, function (id, option) {
