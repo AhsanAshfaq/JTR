@@ -19,7 +19,7 @@
                     </div>
                     <div class="body">
                         <div class="table-responsive">
-                            <table class="table table-bordered table-striped table-hover js-basic-example dataTable">
+                            <table id="feesReceiveIndex" class="table table-bordered table-striped table-hover js-basic-example dataTable">
                                 <thead>
                                     <tr class="thead">
                                         <th>
@@ -66,7 +66,10 @@
                                             @Html.DisplayFor(modelItem => item.PostDate)
                                         </td>
                                         <td>
-                                            <a title="Select Record" href="@Url.Action("create", "feesreceive", new { feesRecId = item.FeesRecId }) "><i class="material-icons">edit</i>SELECT</a>
+                                            <a href="@Url.Action("create", "feesreceive", new { feesRecId = item.FeesRecId }) "><i class="material-icons">edit</i></a> |
+
+                                            <a href="@Url.Action("delete", "feesreceive", new { id = item.FeesRecId }) "><i class="material-icons">delete</i></a>
+
                                         </td>
                                     </tr>
                                     }
@@ -80,4 +83,8 @@
 
     </div>
 </section>
-
+<script>
+    $(function () {
+        $('#feesReceiveIndex').DataTable();
+    })
+</script>

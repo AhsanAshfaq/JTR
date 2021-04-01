@@ -21,7 +21,7 @@
                     <div class="body">
                         <div class="table-responsive">
 
-                            <table class="table table-bordered table-striped table-hover js-basic-example dataTable">
+                            <table id="generateFeesIndex" class="table table-bordered table-striped table-hover js-basic-example dataTable">
                                 <thead>
                                     <tr class="thead">
                                         <th>
@@ -34,6 +34,20 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                    <tr>
+                                        <td>@item.GenFeesMstID</td>
+                                        <td>@item.PostDate</td>
+                                        <td>
+                                            <a href="@Url.Action("edit", "generatefees", new { id = item.GenFeesMstID }) "><i class="material-icons">edit</i></a> | 
+                                        
+                                            <a href="@Url.Action("delete", "generatefees", new { id = item.GenFeesMstID }) "><i class="material-icons">delete</i></a>
+                                        
+                                        </td>
+                                    </tr>
+                                        
+                                    }
                                 </tbody>
                             </table>
                         </div>
@@ -44,3 +58,9 @@
 
     </div>
 </section>
+
+<script>
+    $(function () {
+        $('#generateFeesIndex').DataTable();
+    })
+</script>

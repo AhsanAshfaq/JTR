@@ -340,12 +340,18 @@
     }
     function calculateNetFees() {
         var totalNetFees = 0;
+        var totaleditedDiscount = 0;
         var TRs = $("#table tbody tr");
+        $.each(TRs, function (id, Tr) {
+            var trValue = parseInt($(Tr).find('td').last().prev().html());
+            totaleditedDiscount += trValue;
+        });
         $.each(TRs, function (id, Tr) {
             var trValue = parseInt($(Tr).find('td').last().html());
             totalNetFees += trValue;
         });
         $('#lblTotalNetFees').html(totalNetFees);
+        $('#lblTotalDiscount').html(totaleditedDiscount);
     }
     function dropdownfill(id,bindid)
     {

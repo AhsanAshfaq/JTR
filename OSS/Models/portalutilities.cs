@@ -16,7 +16,7 @@ namespace OSS.Models
     //Session["schollid"] = emp.SchoolID;
     //Session["roleid"] = emp.RoleID;
 
-    static class portalutilities
+    public static class portalutilities
     {
 
         //  public static int _schollid = Convert.ToInt32(System.Web.HttpContext.Current.Session["schollid"]);
