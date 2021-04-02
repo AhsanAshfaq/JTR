@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
 using OSS.Models;
@@ -16,7 +17,7 @@ namespace OSS.Models
     //Session["schollid"] = emp.SchoolID;
     //Session["roleid"] = emp.RoleID;
 
-    public static class portalutilities
+    static class portalutilities
     {
 
         //  public static int _schollid = Convert.ToInt32(System.Web.HttpContext.Current.Session["schollid"]);
@@ -95,6 +96,23 @@ namespace OSS.Models
             public static string HalfYearly = "Half Yearly";
             public static string Quaterly = "Quaterly";
             public static string Yearly = "Yearly";
+        }
+
+        public static object BindChargeFee()
+        {
+            List<string> obj = new List<string>();
+            portalutilities.ChargeFee pMS = new portalutilities.ChargeFee();
+
+            FieldInfo[] fields = pMS.GetType().GetFields();
+            int k = 0;
+            foreach (var xInfo in fields)
+            {
+                //cmbChargeFee.Items.Insert(k, xInfo.GetValue(pMS).ToString());
+                obj.Insert(k, xInfo.GetValue(pMS).ToString());
+                k++;
+            }
+
+            return obj;
         }
 
         #endregion

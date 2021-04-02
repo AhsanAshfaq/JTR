@@ -213,9 +213,11 @@
     <Compile Include="Controllers\Masterform\ReligionController.cs" />
     <Compile Include="Controllers\Masterform\SectionController.cs" />
     <Compile Include="Controllers\Masterform\StageController.cs" />
+    <Compile Include="Controllers\Masterform\DiscountController.cs" />
     <Compile Include="Controllers\RegistrationController.cs" />
     <Compile Include="Controllers\RolesController.cs" />
     <Compile Include="Controllers\GenerateFeesController.cs" />
+    <Compile Include="Controllers\FeesTypeController.cs" />
     <Compile Include="Controllers\testController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Global.asax.cs">
@@ -4510,6 +4512,16 @@
     <Content Include="Views\GenerateFees\Index.cshtml" />
     <Content Include="Views\FeesReceive\Index.cshtml" />
     <Content Include="Views\FeesReceive\Create.cshtml" />
+    <Content Include="Views\FeesType\Create.cshtml" />
+    <Content Include="Views\FeesType\Delete.cshtml" />
+    <Content Include="Views\FeesType\Details.cshtml" />
+    <Content Include="Views\FeesType\Edit.cshtml" />
+    <Content Include="Views\FeesType\Index.cshtml" />
+    <Content Include="Views\Discount\Create.cshtml" />
+    <Content Include="Views\Discount\Delete.cshtml" />
+    <Content Include="Views\Discount\Details.cshtml" />
+    <Content Include="Views\Discount\Edit.cshtml" />
+    <Content Include="Views\Discount\Index.cshtml" />
     <Content Include="Views\FeeVoucher\Create.cshtml" />
     <Content Include="Views\FeeVoucher\FeeVoucherReport.cshtml" />
   </ItemGroup>
