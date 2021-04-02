@@ -1,0 +1,304 @@
+﻿@model OSS.Models.tblGenerateFeesMst
+
+@{
+    ViewBag.Title = "Create Fee Voucher";
+    var stageList = (List<OSS.Models.tblStage>)ViewBag.StageList;
+}
+<style>
+    .chosen-container-multi .chosen-choices {
+        border: none !important;
+    }
+</style>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.2.0/css/datepicker.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.2.0/js/bootstrap-datepicker.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.0.272/jspdf.debug.js"></script>
+
+<section class="content">
+    <div class="container-fluid">
+        <!-- Basic Examples -->
+        <div class="row clearfix demo-icon-container">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="card">
+                    <div class="body">
+                        <div class="form-horizontal">
+                            <div class="row body clearfix">
+                                <div class="col-sm-12">
+                                    <div class="col-sm-4">
+                                        <div class="form-check">
+                                            <input class="form-check-inline"
+                                                   type="radio"
+                                                   name="activeness"
+                                                   id="both" />
+                                            <label class="form-check-label" for="both"> Both</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-inline"
+                                                   type="radio"
+                                                   name="activeness"
+                                                   id="active" />
+                                            <label class="form-check-label" for="active">Active</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-inline"
+                                                   type="radio"
+                                                   name="activeness"
+                                                   id="inactive" />
+                                            <label class="form-check-label" for="inactive"> In Active</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row body clearfix">
+                                <div class="col-sm-3">
+                                    <div class="form-group form-float">
+                                        <div class="form-line">
+                                            <select id="StageID" class="form-control" onchange="dropdownfill($(this).attr('id'), 'ClassID')">
+                                                <option value="0">Select All</option>
+                                                @foreach (var item in stageList)
+                                                {
+                                                    <option value="@item.StageID">@item.StageName</option>
+                                                }
+                                            </select>
+                                            <label class="form-label">Stage</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group form-float">
+                                        <div class="form-line">
+                                            <select required="" class="form-control" id="ClassID" name="ClassID" onchange="dropdownfill($(this).attr('id'), 'SectionID')"></select>
+                                            <label class="form-label">Class</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group form-float ">
+                                        <div class="form-line">
+                                            <select required="" class="form-control alerts-border" id="SectionID" name="SectionID"></select>
+                                            <label class="form-label">Section</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group form-float  ">
+                                        <div class="form-line">
+                                            <input class="form-control" id="postDate" name="postDate" />
+                                            <label class="form-label">Month</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row body clearfix">
+                                <div class="col-sm-12" style="text-align:center;">
+                                    <button type="button" style="width:10%;margin-right: 65px;" class="btn btn-info btn-sm waves-effect" onclick="loadStudents();">Load Students</button>
+                                    <button type="button" style="width:10%;" id="btn" class="btn btn-info btn-sm waves-effect" >Print</button>
+                                </div>
+                                <input type="hidden" id="selectedStudentsId" name="selectedStudentsId" />
+                            </div>
+                            <div id="dvContainer">
+                                <h1>Test</h1>
+                        </div>
+                        <div class="row body clearfix">
+                            <div class="col-sm-12">
+                                <table id="table" class="table table-bordered table-striped table-hover js-basic-example dataTable">
+                                    <thead>
+                                        <tr>
+                                            <th><input class="checkbox" onchange="selectAllBoxes(0);" style="position: inherit;opacity: 1;" type="checkbox" name="0" id="0" /></th>
+                                            <th>GR.No</th>
+                                            <th>Student Name</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+</section>
+<script>
+    function getDataUri(url, cb) {
+        var image = new Image();
+        image.setAttribute('crossOrigin', 'anonymous'); //getting images from external domain
+
+        image.onload = function () {
+            var canvas = document.createElement('canvas');
+            canvas.width = this.naturalWidth;
+            canvas.height = this.naturalHeight;
+
+            //next three lines for white background in case png has a transparent background
+            var ctx = canvas.getContext('2d');
+            ctx.fillStyle = '#fff';  /// set white fill style
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            canvas.getContext('2d').drawImage(this, 0, 0);
+
+            cb(canvas.toDataURL('image/jpeg'));
+        };
+
+        image.src = url;
+    }
+    $(function () {
+        $("#postDate").datepicker({
+            format: "mm-yyyy",
+            startView: "months",
+            minViewMode: "months"
+        });
+        $(document).on('click', '#btn', function () {
+            let logo = null;
+
+            
+            let pdf = new jsPDF();
+            let section = $('#dvContainer');
+            pdf.setFontSize(24);
+            pdf.text(20, 20, 'This is a title');
+
+            pdf.setFontSize(16);
+            pdf.text(20, 30, 'This is some normal sized text underneath.');
+            getDataUri('https://ibb.co/Sv0GJRW', function (dataUri) {
+                logo = dataUri;
+                let left = 15;
+                let top = 8;
+                const imgWidth = 100;
+                const imgHeight = 100;
+
+                doc.addImage(logo, 'PNG', left, top, imgWidth, imgHeight);
+            });
+            let page = function () {
+                pdf.save('pagename.pdf');
+
+            };
+            pdf.addHTML(section, page);
+        });
+    });
+    function requestFeeVoucherReport() {
+        //var doc = new jsPDF();
+
+        //doc.setFontSize(24);
+        //doc.text(20, 20, 'This is a title');
+
+        //doc.setFontSize(16);
+        //doc.text(20, 30, 'This is some normal sized text underneath.');
+
+        //// Save the PDF
+        //doc.save('document.pdf');
+
+        var studentIds = $('#selectedStudentsId').val();
+        $.ajax({
+            url: '/FeeVoucher/GenerateReport?studentIds=' + studentIds ,
+            type: "GET",
+            success: function (result) {
+                //var doc = new jsPDF();
+                
+
+            },
+            error: function (result) {
+                console.log(result);
+                alert("Error");
+            }
+        });
+    }
+    function selectAllBoxes() {
+        var TRs = $("#table tbody tr");
+        var ids = '';
+        if (!$('#0').is(":checked")) {
+            $.each(TRs, function (id, tr) {
+                $(tr).find('input').prop('checked', false);
+            });
+            $('#selectedStudentsId').val('');
+        } else {
+            $.each(TRs, function (id, tr) {
+                $(tr).find('input').prop('checked', true);
+                if (ids == '')
+                    ids = $(tr).find('input').attr('id');
+                else
+                    ids += ',' + $(tr).find('input').attr('id');
+            });
+            $('#selectedStudentsId').val(ids);
+        }
+    }
+    function updateSelectedFees(id) {
+        var ids = $('#selectedStudentsId').val();
+        if ($('#' + id).is(":checked")) {
+            if (id > 0) {
+                if (ids == '')
+                    ids = id;
+                else
+                    ids += ',' + id;
+            }
+            $('#selectedStudentsId').val(ids);
+        }
+        else {
+            var updatedList = [];
+            $.each(ids.split(','), function (Stid, optionId) {
+                if (optionId != id)
+                    updatedList.push(optionId);
+            });
+            $('#selectedStudentsId').val(updatedList);
+        }
+    }
+    function loadStudents() {
+        var stageId = $('#StageID option:selected').val();
+        var classId = $('#ClassID option:selected').val();
+        var sectionId = $('#SectionID option:selected').val();
+        var postDate = $('#postDate').val();
+        var activeness = $('input[name="activeness"]:checked').attr('id');
+        $.ajax({
+            url: '/FeeVoucher/LoadStudents?stageId=' + stageId + '&classId=' + classId + '&sectionId=' + sectionId + '&activeness=' + activeness + '&selectedPeriod=' + postDate,
+            type: "GET",
+            success: function (result) {
+                if (result.length == 0) {
+                    $("#table tbody").html('');
+                    $('#table tbody').append('<tr><td colspan="3" style="text-align: center;background: gainsboro;">No Records To Display</td></tr>');
+                } else {
+                    $("#table tbody").html('');
+                    $.each(result, function (id, option) {
+                        $('#table tbody').append('<tr><td><input class="checkbox" onchange="updateSelectedFees(' + option.AdmissionId
+                            + ')" style="position: inherit;opacity: 1;" type="checkbox" name="' + option.AdmissionId + '" id="' + option.AdmissionId + '" /></td><td>' +
+                            option.GrNo + '</td><td>' + option.StudentName + '</td></tr>');
+                    });
+                }
+            },
+            error: function (result) {
+                console.log(result);
+                alert("Error");
+            }
+        });
+    }
+    function dropdownfill(id,bindid)
+    {
+        var name = id;
+        var id = "#" + id;
+        bindid = "#" + bindid;
+        var selectedId = $(id).val();
+        if (selectedId != "") {
+            $.ajax({
+                url: '@Url.Action("fill_dropdown", "Registration")',
+                type: "POST",
+                data: {
+                    "id": selectedId,
+                    "name": name
+                },
+                success: function (result) {
+                    $(bindid).html('');
+                    $(bindid).append($('<option value="0">Select All</option>'));
+                    $.each(result, function (id, option) {
+                        $(bindid).append($('<option></option>').val(option.id).html(option.name));
+                    });
+                },
+                error: function (result) {
+                    console.log(result);
+                    alert("Error");
+                }
+            });
+        } else {
+        }
+    }
+</script>
