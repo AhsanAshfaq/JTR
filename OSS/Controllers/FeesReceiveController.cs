@@ -4,6 +4,7 @@ using OSS.Models.viewmodel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web.Mvc;
 
 namespace OSS.Controllers
@@ -185,27 +186,98 @@ namespace OSS.Controllers
             return result;
         }
 
+        private string CreateFeesRecNumber() 
+        {
+            var month = DateTime.Now.Month;
+            var year = DateTime.Now.Year;
+            var count = db.tblFeesReceiveMst.Count(x => x.CreateDate.Value.Year == year && x.CreateDate.Value.Month == month);
+            return month + "" + year % 100 + "-" + (count + 1);
+        }
+
         // POST: FeesReceive/Create
         [HttpPost]
-        public ActionResult Create(FormCollection form)
+        public string Create(FeesReceivePostModel model, int? id)
         {
-            try
+            if (id.HasValue)
             {
-                // TODO: Add insert logic here
-                var stageId = int.Parse(form["stageId"]);
-                var classId = int.Parse(form["classId"]);
-                var sectionId = int.Parse(form["sectionId"]);
-                var postDate = DateTime.Parse(form["postDate"]);
-                var selectedFeesIds = form["selectedFees"];  // These are GenerateFeesId for each fees item selected and its comma separated.
-                var StudentName = form["name"];
-                var FatherName = form["fname"];
-                var selectedAdmissionId = form["selectedAdmissionId"];
+                try
+                {
+                    var feeRecId = long.Parse(id.Value.ToString());
+                    var feesRecMst = db.tblFeesReceiveMst.FirstOrDefault(x => x.FeesReceiveMstID == feeRecId);
+                    feesRecMst.TotalAdjustmentAmount = model.TotalAdjustmentAmount;
+                    feesRecMst.TotalDiscountAmount = model.TotalDiscount;
+                    feesRecMst.TotalFeesAmount = model.TotalFees;
+                    feesRecMst.TotalNetFees = model.TotalNetFees;
+                    var feeRecDtlList = db.tblFeesReceiveDtl.Where(x => x.FeesReceiveMstID == feeRecId).ToList();
+                    var feeList = model.FeesList.Split('|');
+                    foreach (var item in feeRecDtlList)
+                    {
+                        foreach (var feeDtl in feeList)
+                        {
+                            var ii = feeDtl.Split(',');
+                            if (item.GenFeesDtlID.Value == int.Parse(ii[0].ToString()))
+                            {
+                                item.AdjustmentAmount = Decimal.Parse(ii[1]);
+                                item.ReceivedAmount = Decimal.Parse(ii[2]);
+                                item.Status = ii[1] != ii[3] ? portalutilities.FeesStatus.Partial : portalutilities.FeesStatus.Paid;
+                            }
+                        }
+                    }
+                    db.SaveChanges();
+                    return "Done";
 
-                return RedirectToAction("Index");
+                }
+                catch (Exception e)
+                {
+                    return "Error";
+                    throw;
+                }
+
             }
-            catch
+            else
             {
-                return View();
+                try
+                {
+                    var mstobj = db.tblFeesReceiveMst.Add(new tblFeesReceiveMst
+                    {
+                        AdmissionID = model.AdmissionId,
+                        CreateBy = portalutilities._username,
+                        CreateDate = DateTime.Now,
+                        FeesReceiveNo = CreateFeesRecNumber(),
+                        IsDelete = false,
+                        PostDate = model.PostDate,
+                        Remarks = string.Empty,
+                        SchoolID = portalutilities._schollid,
+                        SessionID = portalutilities.ActiveSessionID,
+                        TotalAdjustmentAmount = model.TotalAdjustmentAmount,
+                        TotalDiscountAmount = model.TotalDiscount,
+                        TotalFeesAmount = model.TotalFees,
+                        TotalNetFees = model.TotalNetFees,
+                        UserID = portalutilities.LoginUserID,
+                    });
+                    db.SaveChanges();
+                    var feeList = model.FeesList.Split('|');
+                    foreach (var item in feeList)
+                    {
+                        var ii = item.Split(',');
+                        db.tblFeesReceiveDtl.Add(new tblFeesReceiveDtl
+                        {
+                            AdjustmentAmount = Decimal.Parse(ii[1]),
+                            ReceivedAmount = Decimal.Parse(ii[2]),
+                            GenFeesDtlID = int.Parse(ii[0]),
+                            Status = ii[1] != ii[3] ? portalutilities.FeesStatus.Partial : portalutilities.FeesStatus.Paid,
+                            FeesReceiveMstID = mstobj.FeesReceiveMstID,
+                        });
+                        db.SaveChanges();
+                    }
+                    return "Done";
+                }
+                catch (Exception e)
+                {
+                    return "Error";
+                    throw;
+                }
+
             }
         }
 
@@ -397,8 +469,11 @@ namespace OSS.Controllers
                            q.FeesReceiveNo,
                            q.AdmissionID,
                            d.StageName,
+                           d.StageID,
                            d.ClassName,
+                           d.ClassID,
                            d.SectionName,
+                           d.SectionID,
                            st.FatherName,
                            st.FatherNameInUrdu,
                            st.ApplicantName,
@@ -458,35 +533,6 @@ namespace OSS.Controllers
                 });
             }
 
-            //var feesListForStudent = new List<FeesReceiveGridViewModel> {
-            //new FeesReceiveGridViewModel{
-            //        FeesMonth = "Nov-2020",
-            //        FeesTypeName = "Monthly Fees",
-            //        FeesAmount = 1000,
-            //        DiscountName = "Disc 5000",
-            //        DiscountAmount = 5000,
-            //        NetFees = 5000,
-            //        ReceivedAmount = 0,
-            //        AdjustmentAmount = 2500,
-            //        DiscountTableId = 1,
-            //        FeesTypeId = 1,
-            //        GenerateFeesId = 1,
-            //}
-
-            //new FeesReceiveGridViewModel{
-            //        FeesMonth = "Nov-2020",
-            //        FeesTypeName = "Monthly Fees",
-            //        FeesAmount = 1000,
-            //        DiscountName = "Disc 5000",
-            //        DiscountAmount = 5000,
-            //        NetFees = 5000,
-            //        ReceivedAmount = 0,
-            //        AdjustmentAmount = 2500,
-            //        DiscountTableId = 1,
-            //        FeesTypeId = 1,
-            //        GenerateFeesId = 2,
-            //}
-
             var obja = (from q in cntx.tblConfiguration where q.SchoolID == portalutilities._schollid select q).FirstOrDefault();
             string ApplicantName = "";
             string FatherName = "";
@@ -522,6 +568,9 @@ namespace OSS.Controllers
                 StageName = obj.StageName,
                 ClassName = obj.ClassName,
                 SectionName = obj.SectionName,
+                StageId = obj.StageID,
+                SectionId = obj.SectionID,
+                ClassId = obj.ClassID,
                 StudentName = ApplicantName,
                 FatherName = FatherName,
                 FeesDetails = feesListForStudent, // List of all the fees a student have 
@@ -554,7 +603,18 @@ namespace OSS.Controllers
         // GET: FeesReceive/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var feeRecive = db.tblFeesReceiveMst.Find(id);
+            if (feeRecive == null)
+            {
+                return HttpNotFound();
+            }
+            feeRecive.IsDelete = true;
+            db.SaveChanges();
+            return RedirectToAction("Index");
         }
 
         // POST: FeesReceive/Delete/5

@@ -17,9 +17,11 @@ namespace OSS.Models.viewmodel
     public class FeesReceiveCreateViewModel {
         public int? AdmissionId { get; set; }
         public string PostDate { get; set; }
-        public int ClassId { get; set; }
+        public int? ClassId { get; set; }
         public string StageName { get; set; }
+        public int? StageId { get; set; }
         public string ClassName { get; set; }
+        public int? SectionId { get; set; }
         public string SectionName { get; set; }
         public string StudentName { get; set; }
         public string FatherName { get; set; }
@@ -46,5 +48,17 @@ namespace OSS.Models.viewmodel
         public decimal? ReceivedAmount { get; set; }
         public decimal? AdjustmentAmount { get; set; }
         public string Status { get; set; }
+    }
+
+    public class FeesReceivePostModel 
+    {
+        public int? AdmissionId { get; set; }
+        public int? TotalDiscount { get; set; }
+        public int? TotalFees { get; set; }
+        public int? TotalNetFees { get; set; }
+        public int? TotalAdjustmentAmount { get; set; }
+        public DateTime PostDate { get; set; }
+        public string FeesList { get; set; }
+
     }
 }

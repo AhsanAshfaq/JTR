@@ -636,6 +636,22 @@ namespace OSS.Controllers
             return RedirectToAction("Index");
         }
 
+        public ActionResult GetListOfFees(int genFeesId) 
+        {
+            var tblGenerateFeesDtlList = db.tblGenerateFeesDtl.Where(x => x.GenFeesMstID == genFeesId).ToList();
+            var result = new List<object>();
+            foreach (var item in tblGenerateFeesDtlList)
+            {
+                result.Add(new
+                {
+                    AdmissionId = item.AdmissionID,
+                    FeeTypeID = item.FeesTypeID,
+                    DiscountID = item.DiscountID.Value,
+                    FeeType = item.tblFeesType.FeesType
+                });
+            }
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
         private static List<GenerateFeesIndv> GetFeeIndvList(GenerateFeesCreateModel model)
         {
             var feesIndvList = new List<GenerateFeesIndv>();
@@ -657,32 +673,112 @@ namespace OSS.Controllers
         // GET: tblGenerateFeesMsts/Edit/5
         public ActionResult Edit(int? id)
         {
+            var result = new GenerateFeesEditViewModel();
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            tblGenerateFeesMst tblGenerateFeesMst = db.tblGenerateFeesMst.Find(id);
+            var tblGenerateFeesMst = db.tblGenerateFeesMst.Find(id);
+            var tblGenerateFeesDtlList = db.tblGenerateFeesDtl.Where(x => x.GenFeesMstID == id).ToList();
+            var tblGenerateFeesCfDtlList = db.tblGenerateFeesCFDtl.Where(x => x.GenFeesMstID == id).Select(x => x.ChargeFee).ToList();
+            result.ChargeFeesIds = string.Join(",", tblGenerateFeesCfDtlList);
+            result.ClassId = tblGenerateFeesMst.ClassID.Value;
+            result.FeesMonth = tblGenerateFeesMst.FeesDate.Value.ToString("MMM");
+            result.PostDate = tblGenerateFeesMst.PostDate.Value.ToString(portalutilities.DateTimeFormat);
+            result.SectionId = tblGenerateFeesMst.SectionID.Value;
+            result.StageId = tblGenerateFeesMst.StageID.Value;
+            result.TotalEditedDiscount = tblGenerateFeesMst.TotalDiscountAmount;
+            result.TotalFees = tblGenerateFeesMst.TotalFeesAmount;
+            result.TotalNetFees = tblGenerateFeesMst.TotalNetFees;
+            var classList = (from s in db.tblClassMst
+                             where (s.StageID == tblGenerateFeesMst.StageID && s.IsDelete != true && s.IsActive == true && s.SchoolID == portalutilities._schollid)
+                             select new IdName
+                             {
+                                 id = s.ClassID,
+                                 name = s.ClassName
+                             }).ToList();
+            var sectionList = (from _tblClassDtls in db.tblClassDtl
+                               join jsec in db.tblSection on _tblClassDtls.SectionID equals jsec.SectionID
+                               where (_tblClassDtls.ClassID == tblGenerateFeesMst.ClassID && jsec.IsActive == true && jsec.IsDelete != true && jsec.SchoolID == portalutilities._schollid)
+                               select new IdName
+                               {
+                                   id = jsec.SectionID,
+                                   name = jsec.SectionName
+                               }).ToList();
+            ViewBag.StageList = db.tblStage.ToList();
+            ViewBag.ClassList = classList;
+            ViewBag.SectionList = sectionList;
+            ViewBag.FeeList = db.tblFeesType.Where(o => o.SchoolID == portalutilities._schollid && o.IsDelete == false && o.IsActive == true).ToList();
+            foreach (var item in tblGenerateFeesDtlList)
+            {
+                var discount = db.tblDiscount.FirstOrDefault(x => x.DiscountID == item.DiscountID.Value);
+                var classobj = db.tblClassMst.FirstOrDefault(x=>x.ClassID == item.ClassID.Value);
+                var feeobj = db.tblFeesType.FirstOrDefault(x => x.FeesTypeID == item.FeesTypeID);
+                var admissionobj = db.tblAdmission.FirstOrDefault(x => x.AdmissionID == item.AdmissionID);
+                var sectionobj = db.tblSection.FirstOrDefault(x => x.SectionID == item.SectionID);
+                result.GridItems.Add(new GenerateFeesGridModel
+                {
+                    AdmissionId = item.AdmissionID.Value,
+                    ClassId = item.ClassID.Value,
+                    ClassName = classobj.ClassName,
+                    DiscountId = item.DiscountID.Value,
+                    DiscountAmount = discount.DiscountAmount,
+                    DiscountName = discount.DiscountName,
+                    EditedDiscount = item.EditedDiscAmount,
+                    FeeAmount = feeobj.FeesAmount,
+                    FeeTypeId = item.FeesTypeID.Value,
+                    FeeTypeName = feeobj.FeesType,
+                    GrNo = admissionobj.GRNo,
+                    NetFees = item.NetFees,
+                    SectionId = item.SectionID.Value,
+                    SectionName = sectionobj.SectionName,
+                    StudentName = portalutilities.InEnglish ? admissionobj.tblStudentRegMst.ApplicantName : admissionobj.tblStudentRegMst.ApplicantNameInUrdu
+                });
+            }
+            
             if (tblGenerateFeesMst == null)
             {
                 return HttpNotFound();
             }
-            return View(tblGenerateFeesMst);
+            return View(result);
         }
 
         // POST: tblGenerateFeesMsts/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "GenFeesMstID,GenFeesNo,StageID,ClassID,SectionID,TotalStudents,TotalFeesAmount,TotalDiscountAmount,TotalNetFees,IsDelete,SchoolID,PostDate,FeesDate,CreateBy,CreateDate,UpdateBy,UpdateDate,DeleteBy,DeleteDate,SessionID,UserID")] tblGenerateFeesMst tblGenerateFeesMst)
+        public string Edit(GenerateFeesCreateModel model, int id)
         {
-            if (ModelState.IsValid)
+            try
             {
-                db.Entry(tblGenerateFeesMst).State = EntityState.Modified;
+                var feesIndvList = GetFeeIndvList(model);
+                var tblGenerateFeesMst = db.tblGenerateFeesMst.Find(id);
+                var tblGenerateFeesDtlList = db.tblGenerateFeesDtl.Where(x => x.GenFeesMstID == id).ToList();
+                tblGenerateFeesMst.UpdateBy = portalutilities._username;
+                tblGenerateFeesMst.UpdateDate = DateTime.Now;
+                tblGenerateFeesMst.TotalDiscountAmount = model.totalDiscount;
+                tblGenerateFeesMst.TotalFeesAmount = model.totalFees;
+                tblGenerateFeesMst.TotalNetFees = model.totalNetFees;
+                tblGenerateFeesMst.TotalStudents = feesIndvList.Count;
+
+                foreach (var item in tblGenerateFeesDtlList)
+                {
+                    foreach (var findv in feesIndvList)
+                    {
+                        if (findv.feesTypeId == item.FeesTypeID)
+                        {
+                            item.EditedDiscAmount = findv.editedDiscount;
+                            item.NetFees = findv.netFees;
+                        }
+                    }
+                }
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return "Done";
             }
-            return View(tblGenerateFeesMst);
+            catch (Exception e)
+            {
+                return e.InnerException.ToString();
+            }
         }
 
         // GET: tblGenerateFeesMsts/Delete/5
@@ -693,24 +789,14 @@ namespace OSS.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             tblGenerateFeesMst tblGenerateFeesMst = db.tblGenerateFeesMst.Find(id);
+            tblGenerateFeesMst.IsDelete = true;
+            db.SaveChanges();
             if (tblGenerateFeesMst == null)
             {
                 return HttpNotFound();
             }
-            return View(tblGenerateFeesMst);
-        }
-
-        // POST: tblGenerateFeesMsts/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            tblGenerateFeesMst tblGenerateFeesMst = db.tblGenerateFeesMst.Find(id);
-            db.tblGenerateFeesMst.Remove(tblGenerateFeesMst);
-            db.SaveChanges();
             return RedirectToAction("Index");
         }
-
         protected override void Dispose(bool disposing)
         {
             if (disposing)

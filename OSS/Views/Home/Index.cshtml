@@ -1,11 +1,26 @@
 ﻿@{
     ViewBag.Title = "Home Page";
-  //  Layout = null;
+    var db = new OSS.Models.OssEntities();
+    var schoolList = db.tblSchool.ToList();
+    //  Layout = null;
 }
 
 
 <section class="content">
     <div class="container-fluid">
+        <div class="col-sm-12" style="margin-bottom:90px;">
+            <div class="col-sm-6">
+                <select id="schooldp" class="form-control" >
+                    @foreach (var item in schoolList)
+                    {
+                        <option value="@item.SchoolID">@item.SchoolName</option>
+                    }
+                </select>
+            </div>
+            <div class="col-sm-2">
+                <button class="btn btn-primary" onclick="changeSchool();">Change School</button>
+            </div>
+        </div>
         <div class="block-header">
             <h2>DASHBOARD</h2>
         </div>
@@ -1366,3 +1381,23 @@
 
 <script src="~/theme/js/pages/tables/jquery-datatable.js"></script>
 
+<script>
+    function changeSchool() {
+        $.ajax({
+            url: '/home/changeSchool',
+            type: "POST",
+            data: {
+                "schoolId": $('#schooldp option:selected').val()
+            },
+            success: function (result) {
+                if (result) {
+                    alert('School Changed');
+                }
+            },
+            error: function (result) {
+                console.log(result);
+                alert("Error");
+            }
+        });
+    }
+</script>

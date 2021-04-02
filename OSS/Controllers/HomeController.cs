@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OSS.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -13,6 +14,11 @@ namespace OSS.Controllers
             return View();
         }
 
+        public string changeSchool(int schoolId) 
+        {
+            portalutilities._schollid = schoolId;
+            return "Done";
+        }
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
